@@ -11,4 +11,11 @@ wheels/
 
 # Workspace files
 .vscode
+
+# datasets
 *.zip
+*.nc
+*.grib
+
+# just in case
+.cdsapirc
