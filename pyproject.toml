@@ -1,0 +1,12 @@
+[project]
+name = "weather-data"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "cdsapi>=0.7.7",
+    "numpy>=2.4.2",
+    "pandas>=3.0.0",
+    "xarray>=2026.1.0",
+]
