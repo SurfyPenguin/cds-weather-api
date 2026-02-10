@@ -108,22 +108,21 @@ class RequestBuilder():
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
 
-    def _validate_list_of_strings(self, data: any, func_ref: Callable) -> None:
+    def _validate_list_of_strings(self, data: any, field: str) -> None:
         """Validation for list-of-string fields.
 
         Args:
             data (any): The input value to validate.
-            func_ref (Callable): The calling method used to generate context-aware error messages. 
+            field (str): The field to generate context aware error messages. 
 
         Raises:
             ValueError: If "data" is not a list or contains non-string elements.
         """
-        name = func_ref.__name__
         if (
             not isinstance(data, list) or
             not all(isinstance(item, str) for item in data)
         ):
-            raise ValueError(f"'{name}' must be a list of strings")
+            raise ValueError(f"'{field}' must be a list of strings")
         
     def _validate_list_of_numbers(self, data: any):
         """Validation for list of int/float fields.
@@ -146,42 +145,42 @@ class RequestBuilder():
 
     def product_type(self, product_type: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(product_type, self.product_type)
+        self._validate_list_of_strings(product_type, "product_type")
 
         self._request.product_type = product_type
         return self
     
     def variables(self, variables: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(variables, self.variables)
+        self._validate_list_of_strings(variables, "variables")
 
         self._request.variables = variables
         return self
     
     def year(self, years: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(years, self.year)
+        self._validate_list_of_strings(years, "year")
 
         self._request.year = years
         return self
     
     def month(self, months: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(months, self.month)
+        self._validate_list_of_strings(months, "month")
 
         self._request.month = months
         return self
     
     def day(self, days: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(days, self.day)
+        self._validate_list_of_strings(days, "day")
 
         self._request.day = days
         return self
     
     def time(self, time: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(time, self.time)
+        self._validate_list_of_strings(time, "time")
 
         self._request.time = time
         return self
