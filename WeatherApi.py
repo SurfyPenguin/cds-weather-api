@@ -2,6 +2,7 @@ import cdsapi
 from typing import Self, Callable
 
 type ParameterList = list[str]
+type BoundingBox = list[int | float]
 
 class WeatherApi:
     """
@@ -17,7 +18,7 @@ class WeatherApi:
         time (ParameterList): Target times in 'HH:MM' format.
         data_format (str): The file format for the output (e.g., 'netcdf').
         download_format (str): Archive or unarchived format specification.
-        area (list[int]): Geographical bounding box [North, West, South, East].
+        area (BoundingBox): Geographical bounding box [North, West, South, East].
     """
     def __init__(self) -> None:
         self.dataset: str = "reanalysis-era5-single-levels"
@@ -60,7 +61,7 @@ class WeatherApi:
         self.data_format: str = "netcdf"
         self.download_format: str = "unarchived"
         
-        self.area: list[int] = [40, 60, 0, 100]
+        self.area: BoundingBox = [40, 60, 0, 100]
 
     def execute(self) -> None:
         dataset = self.dataset
@@ -152,7 +153,7 @@ class RequestBuilder():
         self._request.data_format = data_format
         return self
     
-    def area(self, area: list[int]) -> Self:
+    def area(self, area: BoundingBox) -> Self:
         self._request.area = area
         return self
     
