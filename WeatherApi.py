@@ -1,5 +1,5 @@
 import cdsapi
-from typing import Self
+from typing import Self, Callable
 
 class WeatherApi:
     """
@@ -83,35 +83,70 @@ class RequestBuilder():
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
 
+    def _validate_list_of_strings(self, data: any, func_ref: Callable):
+        """Validation for list-of-string fields.
+
+        Args:
+            data (any): The input value to validate.
+            func_ref (Callable): The calling method used to generate context-aware error messages. 
+
+        Raises:
+            ValueError: If "data" is not a list or contains non-string elements.
+        """
+        name = func_ref.__name__
+        if (
+            not isinstance(data, list) or
+            not all(isinstance(item, str) for item in data)
+        ):
+            raise ValueError(f"'{name}' must be a list of strings")
+
     def dataset(self, dataset: str) -> Self:
         self._request.dataset = dataset
         return self
 
     def product_type(self, product_type: list[str]) -> Self:
+        # validate
+        self._validate_list_of_strings(product_type, self.product_type)
+
         self._request.product_type = product_type
         return self
     
     def variables(self, variables: list[str]) -> Self:
+        # validate
+        self._validate_list_of_strings(variables, self.variables)
+
         self._request.variables = variables
         return self
     
     def year(self, years: list[str]) -> Self:
+        # validate
+        self._validate_list_of_strings(years, self.year)
+
         self._request.year = years
         return self
     
     def month(self, months: list[str]) -> Self:
+        # validate
+        self._validate_list_of_strings(months, self.month)
+
         self._request.month = months
         return self
     
     def day(self, days: list[str]) -> Self:
+        # validate
+        self._validate_list_of_strings(days, self.day)
+
         self._request.day = days
         return self
     
     def time(self, time: list[str]) -> Self:
+        # validate
+        self._validate_list_of_strings(time, self.time)
+
         self._request.time = time
         return self
     
-    def data_format(self, data_format) -> Self:
+    def data_format(self, data_format: str) -> Self:
         self._request.data_format = data_format
         return self
     
