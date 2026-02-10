@@ -1,5 +1,6 @@
 import cdsapi
 from typing import Self, Callable
+from exceptions import *
 
 type ParameterList = list[str]
 """
@@ -107,7 +108,7 @@ class RequestBuilder():
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
 
-    def _validate_list_of_strings(self, data: any, func_ref: Callable):
+    def _validate_list_of_strings(self, data: any, func_ref: Callable) -> None:
         """Validation for list-of-string fields.
 
         Args:
@@ -123,6 +124,21 @@ class RequestBuilder():
             not all(isinstance(item, str) for item in data)
         ):
             raise ValueError(f"'{name}' must be a list of strings")
+        
+    def _validate_list_of_numbers(self, data: any):
+        """Validation for list of int/float fields.
+
+        Args:
+            data (any): The input value to validate.
+
+        Raises:
+            ValueError: Raised when data is a list or does not contain integer/float values.
+        """
+        if (
+            not isinstance(data, list) or
+            not all(isinstance(item, (int, float)) for item in data)
+        ):
+            raise ValueError("'area' must contain list of north, west, south and east coordinates as integer or float")
 
     def dataset(self, dataset: str) -> Self:
         self._request.dataset = dataset
@@ -175,6 +191,34 @@ class RequestBuilder():
         return self
     
     def area(self, area: BoundingBox) -> Self:
+        """Sets the geographical bounding box for the ERA5 data request.
+
+        Args:
+            area (BoundingBox): Coordinates of bounding area in the format [N, W, S, E].
+
+        Raises:
+            ValidationError: Raised when provided BoundingBox doesn't have 4 values
+            LatitudeError: Raised for invalid latitudes
+            ValidationError: Raised for invalid longitudes
+        """
+
+        # validate type
+        self._validate_list_of_numbers(area)
+
+        # validate length
+        if len(area) != 4:
+            raise ValidationError("BoundingBox must have exactly 4 values: [N, W, S, E]")
+        
+        n, w, s, e = area
+
+        # Latitude checks
+        if not (-90 <= s <= n <= 90):
+            raise LatitudeError(f"North ({n}) must be >= South ({s}) and both within [-90, 90]")
+        
+        # Longitude checks
+        if not (-180 <= w <= e <= 180):
+            raise LongitudeError(f"East ({e}) must be >= West ({w}) and both within [-180, 180]")
+
         self._request.area = area
         return self
     
