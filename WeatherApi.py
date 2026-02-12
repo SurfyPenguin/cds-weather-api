@@ -1,6 +1,7 @@
 import cdsapi
-from typing import Self, Callable
 from exceptions import *
+from types import *
+from typing import Self, Callable
 
 type ParameterList = list[str]
 """
