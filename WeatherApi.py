@@ -1,7 +1,9 @@
 import cdsapi
 from exceptions import *
+from helpers import CDSFormatter as fmt
+from helpers import ERA5_CURRENT_YEAR
 from types import *
-from typing import Self, Callable
+from typing import Self
 
 type ParameterList = list[str]
 """
@@ -165,12 +167,41 @@ class RequestBuilder():
         self._request.year = years
         return self
     
+    def year_range(self, start: int, stop: int = ERA5_CURRENT_YEAR) -> Self:
+        """Specify starting and ending year values to set years in that range.
+        
+        For specific year values, it is highly recommended to use `RequestBuilder.year()`
+        method.
+
+        Args:
+            start (int): Starting year value.
+            stop (int, optional): Ending year value (inclusive). Defaults to `ERA5_CURRENT_YEAR`.
+        """
+        # to get year range in list[str]
+        self._request.year = fmt.year_range(start, stop)
+        return self
+    
     def month(self, months: ParameterList) -> Self:
         # validate
         self._validate_list_of_strings(months, "month")
 
         self._request.month = months
         return self
+    
+    def month_range(self, start: int, stop: int) -> Self:
+        """Specify starting and ending month values to set months in that range.
+
+        Months are cyclic so starting (`start`) month doesn't need to be less than ending (`stop`) month.
+        Use `RequestBuilder.month()` method to set specific values of month.
+
+        Args:
+            start (int): Starting month value (1–12).
+            stop (int): Ending month value (1–12, inclusive).
+        """
+        # to get month range in list[str]
+        self._request.month = fmt.month_range(start, stop)
+        return self
+
     
     def day(self, days: ParameterList) -> Self:
         # validate

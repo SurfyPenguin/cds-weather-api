@@ -12,7 +12,25 @@ EN_DASH = "–" # proper typography for ranges
 class CDSFormatter:
 
     @staticmethod
-    def year_range(start: int, stop: int):
+    def year_range(start: int, stop: int) -> list[str]:
+        """Creates a range of valid years using start and stop (inclusive) values.
+
+        This method is helpful for defining year ranges and prevents the need for passing numeric-strings manually.
+        Using this method for large ranges might increase the request size significantly, especially when variables 
+        are too many, therefore request gets rejected.
+
+        Args:
+            start (int): The starting year of the sequence.
+            stop (int): The ending year of the sequence (inclusive).
+
+        Raises:
+            ValidationError: Raised when start value is greater than stop value.
+            ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raised when start or stop values are not in the years for which datasets are available in CDS.
+
+        Returns:
+            list[str]: A list of years in numeric-string.
+        """
         # validate
         if start > stop:
             raise ValidationError(f"Start year ({start}) can't be greater than stop ({stop}) year")
@@ -28,6 +46,23 @@ class CDSFormatter:
 
     @staticmethod
     def month_range(start: int, stop: int) -> list[str]:
+        """Creates a range of valid months using start and stop (inclusive) values.
+
+        This method is helpful for defining range of months (in the format required by CDS api).
+        Months are cyclic i.e. values like (9, 4) will return a list of months from September
+        to April.
+
+        Args:
+            start (int): The starting month of the sequence (1 for Jan, 2 for Feb, ...).
+            stop (int): The ending month of the sequence (inclusive).
+
+        Raises:
+            ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raised when provided start or stop value is greater than 12.
+
+        Returns:
+            list[str]: A list of months in numeric-string.
+        """
         # validate
         if start <= 0 or stop <= 0:
             raise ValidationError("Months can't be negative or zero.")
