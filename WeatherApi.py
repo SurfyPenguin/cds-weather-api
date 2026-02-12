@@ -179,6 +179,14 @@ class RequestBuilder():
         return self
     
     def time(self, time: ParameterList) -> Self:
+        """Sets the target hours for data retrieval.
+
+        This method accepts a list of timestamps in 24-hour format. It ensures that each entry follows the "HH:MM" convention
+
+        Args:
+            time (ParameterList): A list of strings representing hours of the day.
+                Format should be "HH:MM" (e.g., ["00:00", "12:00", "23:00"])
+        """
         # validate
         self._validate_list_of_strings(time, "time")
 
@@ -186,6 +194,13 @@ class RequestBuilder():
         return self
     
     def data_format(self, data_format: str) -> Self:
+        """Sets the data-format in which the dataset would be requested from CDS
+
+        This method can take two parameters "netcdf" and "grib"
+
+        Args:
+            data_format (str): Takes preffered data-format 
+        """
         self._request.data_format = data_format
         return self
     
