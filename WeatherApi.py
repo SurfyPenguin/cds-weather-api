@@ -232,7 +232,15 @@ class RequestBuilder():
 
         Args:
             data_format (str): Takes preffered data-format 
+
+        Raises:
+            ValidationError: When provided data_format is not allowed/available.
         """
+        # validate
+        allowed = ["netcdf", "grib"]
+        if data_format.lower() not in allowed:
+            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of '{"', '".join(format for format in allowed)}'.")
+
         self._request.data_format = data_format
         return self
     
