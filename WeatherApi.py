@@ -210,6 +210,19 @@ class RequestBuilder():
         self._request.day = days
         return self
     
+    def day_range(self, start: int, stop: int) -> Self:
+        """Specify starting and ending day values to set days in that range.
+
+        For specific day values, it is highly recommended to use `RequestBuilder.day()` method.
+
+        Args:
+            start (int): Starting day value (1–12).
+            stop (int): Ending day value (1–12, inclusive).
+        """
+        # to get day range in list[str]
+        self._request.day = fmt.day_range(start, stop)
+        return self
+    
     def time(self, time: ParameterList) -> Self:
         """Sets the target hours for data retrieval.
 
