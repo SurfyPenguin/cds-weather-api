@@ -7,6 +7,9 @@ LAST_MONTH: int = 12
 ERA5_START_YEAR: int = 1939 # datasets in CDS are available from 1939 
 ERA5_CURRENT_YEAR: int = datetime.now().year # maximum year would be current year
 
+FIRST_DAY: int = 1
+LAST_DAY: int = 31 # 30 or 31, managed by cdsapi
+
 EN_DASH = "–" # proper typography for ranges
 
 class CDSFormatter:
@@ -33,7 +36,7 @@ class CDSFormatter:
         """
         # validate
         if start > stop:
-            raise ValidationError(f"Start year ({start}) can't be greater than stop ({stop}) year")
+            raise ValidationError(f"Start year ({start}) can't be greater than stop year ({stop}).")
 
         if start < 0 or stop < 0:
             raise ValidationError("Years can't be negative or zero.")
@@ -69,7 +72,7 @@ class CDSFormatter:
         
         # max value for month is 12
         if start > LAST_MONTH or stop > LAST_MONTH:
-            raise ValidationError(f"Months must be between {FIRST_MONTH}{EN_DASH}{LAST_MONTH}")
+            raise ValidationError(f"Months must be between {FIRST_MONTH}{EN_DASH}{LAST_MONTH}.")
 
         if start <= stop:
             months = list(range(start, stop + 1))
@@ -78,3 +81,34 @@ class CDSFormatter:
             months = list(range(start, 13)) + list(range(1, stop + 1))
         
         return [str(month).zfill(2) for month in months]
+    
+    @staticmethod
+    def day_range(start: int, stop: int) -> list[str]:
+        """Creates a range of valid days using start and stop (inclusive) values.
+
+        This method is helpful for defining range of days (in the format required by CDS api).
+
+        Args:
+            start (int): The starting day of the sequence.
+            stop (int): The ending day of the sequence.
+
+        Raises:
+            ValidationError: Raised when start value is greater than stop value.
+            ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raised when start or stop values are not between valid month range (1–31).
+
+        Returns:
+            list[str]: A list of days in numeric-string.
+        """
+        # validate
+        if start > stop:
+            raise ValidationError(f"Start day ({start}) can't be greater than stop day ({stop}).")
+
+        if start <= 0 or stop <= 0:
+            raise ValidationError("Days can't be negative or zero.")
+        
+        # last day is 31
+        if start > LAST_DAY or stop > LAST_DAY:
+            raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}.")
+        
+        return [str(day).zfill(2) for day in range(start, stop + 1)]
