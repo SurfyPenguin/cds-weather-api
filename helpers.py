@@ -80,7 +80,7 @@ class CDSFormatter:
             # allow months to cycle
             months = list(range(start, 13)) + list(range(1, stop + 1))
         
-        return [str(month).zfill(2) for month in months]
+        return [f"{month:02d}" for month in months]
     
     @staticmethod
     def day_range(start: int, stop: int) -> list[str]:
@@ -111,4 +111,4 @@ class CDSFormatter:
         if start > LAST_DAY or stop > LAST_DAY:
             raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}.")
         
-        return [str(day).zfill(2) for day in range(start, stop + 1)]
+        return [f"{day:02d}" for day in range(start, stop + 1)]
