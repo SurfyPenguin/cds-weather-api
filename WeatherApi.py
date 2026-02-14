@@ -140,7 +140,7 @@ class RequestBuilder():
             not isinstance(data, list) or
             not all(isinstance(item, (int, float)) for item in data)
         ):
-            raise ValueError("'area' must contain list of north, west, south and east coordinates as integer or float")
+            raise ValueError("The list must contain integer or float type elements only.")
 
     def dataset(self, dataset: str) -> Self:
         self._request.dataset = dataset
