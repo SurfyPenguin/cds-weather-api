@@ -1,14 +1,17 @@
 from datetime import datetime
 from exceptions import ValidationError
 
-FIRST_MONTH: int = 1
-LAST_MONTH: int = 12
-
 ERA5_START_YEAR: int = 1939 # datasets in CDS are available from 1939 
 ERA5_CURRENT_YEAR: int = datetime.now().year # maximum year would be current year
 
+FIRST_MONTH: int = 1
+LAST_MONTH: int = 12
+
 FIRST_DAY: int = 1
 LAST_DAY: int = 31 # 30 or 31, managed by cdsapi
+
+FIRST_HOUR: int = 0 # 00:00
+LAST_HOUR: int = 23 # 23:00
 
 EN_DASH = "–" # proper typography for ranges
 
@@ -112,3 +115,36 @@ class CDSFormatter:
             raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}.")
         
         return [f"{day:02d}" for day in range(start, stop + 1)]
+
+    @staticmethod
+    def time_range(start: int, stop: int) -> list[str]:
+        """Creates a range of valid hours using start and stop (inclusive) values.
+
+        This method is helpful for defining range of hours (in the format required by CDS api).
+        hours are cyclic i.e. values like (12, 1) will return a hours from 12:00 to 01:00.
+
+        Args:
+            start (int): The starting hour of the sequence (1 for 01:00, 2 for 02:00, ...).
+            stop (int): The ending hour of the sequence (inclusive).
+
+        Raises:
+            ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raised when provided start or stop value is greater than 23.
+
+        Returns:
+            list[str]: A list of hours in numeric-string.
+        """
+        # validate        
+        if start < 0 or stop < 0:
+            raise ValidationError("Time can't be negative.")
+        
+        if start > LAST_HOUR or stop > LAST_HOUR:
+            raise ValidationError(f"Time must be between {FIRST_HOUR}{EN_DASH}{LAST_HOUR}.")
+        
+        if start <= stop:
+            hours = list(range(start, stop + 1))
+        else:
+            # allow hours to cycle
+            hours = list(range(start, LAST_HOUR + 1)) + list(range(FIRST_HOUR, stop + 1))
+        
+        return [f"{hour:02d}:00" for hour in hours]

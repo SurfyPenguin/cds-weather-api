@@ -238,6 +238,20 @@ class RequestBuilder():
         self._request.time = time
         return self
     
+    def time_range(self, start: int, stop: int) -> Self:
+        """Specify starting and ending time values to set hours in that range.
+
+        Hours are cyclic so starting (`start`) time doesn't need to be less than ending (`stop`) time.
+        Use `RequestBuilder.time()` method to set specific values of time in HH:MM format.
+
+        Args:
+            start (int): Starting time value (0–23).
+            stop (int): Ending time value (0–23, inclusive).
+        """
+        # to get time range in list[str]
+        self._request.time = fmt.time_range(start, stop)
+        return self
+    
     def data_format(self, data_format: str) -> Self:
         """Sets the data-format in which the dataset would be requested from CDS
 
