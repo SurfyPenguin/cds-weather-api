@@ -18,6 +18,62 @@ EN_DASH = "–" # proper typography for ranges
 class CDSFormatter:
 
     @staticmethod
+    def format_to_year_list(years: list[int]) -> list[str]:
+        """Year list formatter for cdsapi.
+
+        Formats any list of integer elements into valid year format.
+
+        Args:
+            years (list[int]): List of years in integer.
+
+        Returns:
+            list[str]: Formatted years in string-list.
+        """
+        return [str(year) for year in years]
+
+    @staticmethod
+    def format_to_month_list(months: list[int]) -> list[str]:
+        """Month list formatter for cdsapi.
+
+        Formats any list of integer elements into valid month format.
+
+        Args:
+            years (list[int]): List of months in integer.
+
+        Returns:
+            list[str]: Formatted months in string-list.
+        """
+        return [f"{month:02d}" for month in months]
+    
+    @staticmethod
+    def format_to_day_list(days: list[int]) -> list[str]:
+        """Day list formatter for cdsapi.
+
+        Formats any list of integer elements into valid day format.
+
+        Args:
+            years (list[int]): List of days in integer.
+
+        Returns:
+            list[str]: Formatted dyas in string-list.
+        """
+        return [f"{day:02d}" for day in days]
+    
+    @staticmethod
+    def format_to_hour_list(hours: list[int]) -> list[str]:
+        """Hour list formatter for cdsapi.
+
+        Formats any list of integer elements into valid hour format.
+
+        Args:
+            years (list[int]): List of hours in integer.
+
+        Returns:
+            list[str]: Formatted hours in string-list.
+        """
+        return [f"{hour:02d}:00" for hour in hours]
+
+    @staticmethod
     def year_range(start: int, stop: int) -> list[str]:
         """Creates a range of valid years using start and stop (inclusive) values.
 
@@ -48,7 +104,9 @@ class CDSFormatter:
         if not (ERA5_START_YEAR <= start <= stop <= ERA5_CURRENT_YEAR):
             raise ValidationError(f"Years must be between {ERA5_START_YEAR}{EN_DASH}{ERA5_CURRENT_YEAR}.")
         
-        return [str(year) for year in range(start, stop + 1)]
+        years = range(start, stop + 1)
+        
+        return CDSFormatter.format_to_year_list(years)
 
     @staticmethod
     def month_range(start: int, stop: int) -> list[str]:
@@ -83,7 +141,7 @@ class CDSFormatter:
             # allow months to cycle
             months = list(range(start, 13)) + list(range(1, stop + 1))
         
-        return [f"{month:02d}" for month in months]
+        return CDSFormatter.format_to_month_list(months)
     
     @staticmethod
     def day_range(start: int, stop: int) -> list[str]:
@@ -114,7 +172,9 @@ class CDSFormatter:
         if start > LAST_DAY or stop > LAST_DAY:
             raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}.")
         
-        return [f"{day:02d}" for day in range(start, stop + 1)]
+        days = range(start, stop + 1)
+        
+        return CDSFormatter.format_to_day_list(days)
 
     @staticmethod
     def time_range(start: int, stop: int) -> list[str]:
@@ -147,4 +207,4 @@ class CDSFormatter:
             # allow hours to cycle
             hours = list(range(start, LAST_HOUR + 1)) + list(range(FIRST_HOUR, stop + 1))
         
-        return [f"{hour:02d}:00" for hour in hours]
+        return CDSFormatter.format_to_hour_list(hours)
