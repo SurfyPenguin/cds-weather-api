@@ -111,36 +111,23 @@ class RequestBuilder():
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
 
-    def _validate_list_of_strings(self, data: any, field: str) -> None:
-        """Validation for list-of-string fields.
+    def _validate_list_of_type(self, data: any, types: type | tuple[type, ...]) -> None:
+        """Validation for list of provided type(s)
+
+        Checks if all the elements in a list are of the provided type(s) or not.
 
         Args:
-            data (any): The input value to validate.
-            field (str): The field to generate context aware error messages. 
+            data (any): Data to be validated.
+            types (type | tuple[type, ...]): Type(s) to be checked.
 
         Raises:
-            ValueError: If "data" is not a list or contains non-string elements.
+            ValueError: If any type mismatch is found.
         """
-        if (
-            not isinstance(data, list) or
-            not all(isinstance(item, str) for item in data)
-        ):
-            raise ValueError(f"'{field}' must be a list of strings")
+        if not isinstance(data, (list, tuple)):
+            raise ValueError(f"Provided data must be 'list' or 'tuple'.")
         
-    def _validate_list_of_numbers(self, data: any):
-        """Validation for list of int/float fields.
-
-        Args:
-            data (any): The input value to validate.
-
-        Raises:
-            ValueError: Raised when data is a list or does not contain integer/float values.
-        """
-        if (
-            not isinstance(data, list) or
-            not all(isinstance(item, (int, float)) for item in data)
-        ):
-            raise ValueError("The list must contain integer or float type elements only.")
+        if not all(isinstance(item, types) for item in data):
+            raise ValueError(f"The list/tuple must conatain these types only: {types}")
 
     def dataset(self, dataset: str) -> Self:
         self._request.dataset = dataset
@@ -148,21 +135,21 @@ class RequestBuilder():
 
     def product_type(self, product_type: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(product_type, "product_type")
+        self._validate_list_of_type(product_type, types=str)
 
         self._request.product_type = product_type
         return self
     
     def variables(self, variables: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(variables, "variables")
+        self._validate_list_of_type(variables, types=str)
 
         self._request.variables = variables
         return self
     
     def year(self, years: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(years, "year")
+        self._validate_list_of_type(years, types=int)
 
         self._request.year = years
         return self
@@ -183,7 +170,7 @@ class RequestBuilder():
     
     def month(self, months: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(months, "month")
+        self._validate_list_of_type(months, types=int)
 
         self._request.month = months
         return self
@@ -205,7 +192,7 @@ class RequestBuilder():
     
     def day(self, days: ParameterList) -> Self:
         # validate
-        self._validate_list_of_strings(days, "day")
+        self._validate_list_of_type(days, types=int)
 
         self._request.day = days
         return self
@@ -233,7 +220,7 @@ class RequestBuilder():
                 Format should be "HH:MM" (e.g., ["00:00", "12:00", "23:00"])
         """
         # validate
-        self._validate_list_of_strings(time, "time")
+        self._validate_list_of_type(hours, types=int)
 
         self._request.time = time
         return self
@@ -311,7 +298,7 @@ class RequestBuilder():
         """
 
         # validate type
-        self._validate_list_of_numbers(area)
+        self._validate_list_of_type(area, types=(int, float))
 
         # validate length
         if len(area) != 4:
