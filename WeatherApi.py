@@ -147,11 +147,17 @@ class RequestBuilder():
         self._request.variables = variables
         return self
     
-    def year(self, years: ParameterList) -> Self:
+    def year(self, *years: int) -> Self:
+        """Sets target year(s) for data retrieval.
+
+        Provide specific year values in integer format to set those years for request.
+
+        The years must be between 1939–Current.
+        """
         # validate
         self._validate_list_of_type(years, types=int)
 
-        self._request.year = years
+        self._request.year = fmt.format_to_year_list(years)
         return self
     
     def year_range(self, start: int, stop: int = ERA5_CURRENT_YEAR) -> Self:
@@ -168,11 +174,17 @@ class RequestBuilder():
         self._request.year = fmt.year_range(start, stop)
         return self
     
-    def month(self, months: ParameterList) -> Self:
+    def month(self, *months: int) -> Self:
+        """Sets target month(s) for data retrieval.
+
+        Provide specific month values in integer format to set those months for request.
+
+        The months must be between 1–12.
+        """
         # validate
         self._validate_list_of_type(months, types=int)
 
-        self._request.month = months
+        self._request.month = fmt.format_to_month_list(months)
         return self
     
     def month_range(self, start: int, stop: int) -> Self:
@@ -190,11 +202,17 @@ class RequestBuilder():
         return self
 
     
-    def day(self, days: ParameterList) -> Self:
+    def day(self, *days: int) -> Self:
+        """Sets target days(s) for data retrieval.
+
+        Provide specific day values in integer format to set those months for request.
+
+        The days must be between 1–31.
+        """
         # validate
         self._validate_list_of_type(days, types=int)
 
-        self._request.day = days
+        self._request.day = fmt.format_to_day_list(days)
         return self
     
     def day_range(self, start: int, stop: int) -> Self:
@@ -210,19 +228,15 @@ class RequestBuilder():
         self._request.day = fmt.day_range(start, stop)
         return self
     
-    def time(self, time: ParameterList) -> Self:
+    def time(self, *hours) -> Self:
         """Sets the target hours for data retrieval.
 
         This method accepts a list of timestamps in 24-hour format. It ensures that each entry follows the "HH:MM" convention
-
-        Args:
-            time (ParameterList): A list of strings representing hours of the day.
-                Format should be "HH:MM" (e.g., ["00:00", "12:00", "23:00"])
         """
         # validate
         self._validate_list_of_type(hours, types=int)
 
-        self._request.time = time
+        self._request.time = fmt.format_to_hour_list(hours)
         return self
     
     def time_range(self, start: int, stop: int) -> Self:
