@@ -249,12 +249,39 @@ class RequestBuilder():
         Raises:
             ValidationError: When provided data_format is not allowed/available.
         """
-        # validate
         allowed = ["netcdf", "grib"]
-        if data_format.lower() not in allowed:
-            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of '{"', '".join(format for format in allowed)}'.")
+        
+        # clean
+        data_format = data_format.strip().lower()
+
+        # validate
+        if data_format.lower().strip() not in allowed:
+            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of '{"', '".join(allowed)}'.")
 
         self._request.data_format = data_format
+        return self
+    
+    def download_format(self, download_format: str) -> Self:
+        """Sets the download-format in which the dataset would be requested from CDS
+
+        This method can take two parameters "unarchived" and "zip"
+
+        Args:
+            data_format (str): Takes preffered download-format
+
+        Raises:
+            ValidationError: When provided download-format is not allowed/available.
+        """
+        allowed = ["unarchived", "zip"]
+
+        # clean
+        download_format = download_format.strip().lower()
+
+        # validate
+        if download_format.lower().strip() not in allowed:
+            raise ValidationError(f"Invalid download_format {download_format}. Downlaod format must be one of '{"', '".join(allowed)}'.")
+        
+        self._request.download_format = download_format
         return self
     
     def area(self, area: BoundingBox) -> Self:
