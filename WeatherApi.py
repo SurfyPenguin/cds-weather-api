@@ -9,6 +9,9 @@ from helpers import (
     EN_DASH,
 )
 from typing import Self
+import os
+
+DOWNLOAD_DIR = "/downloads"
 
 type ParameterList = list[str]
 """
@@ -92,6 +95,7 @@ class WeatherApi:
         self.download_format: str = "unarchived"
         
         self.area: BoundingBox = [40, 60, 0, 100]
+        self.target: str = None
 
     def execute(self) -> None:
         dataset = self.dataset
@@ -107,7 +111,7 @@ class WeatherApi:
         }
 
         client = cdsapi.Client()
-        client.retrieve(dataset, request).download()  
+        client.retrieve(dataset, request).download(self.target)
 
 class RequestBuilder():
     """
@@ -315,7 +319,7 @@ class RequestBuilder():
 
         # validate
         if download_format.lower().strip() not in allowed:
-            raise ValidationError(f"Invalid download_format {download_format}. Downlaod format must be one of '{"', '".join(allowed)}'.")
+            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of '{"', '".join(allowed)}'.")
         
         self._request.download_format = download_format
         return self
@@ -350,6 +354,19 @@ class RequestBuilder():
             raise LongitudeError(f"East ({e}) must be >= West ({w}) and both within [-180, 180]")
 
         self._request.area = area
+        return self
+    
+    def target(self, file_name: str | os.PathLike, dir: os.PathLike = os.getcwd()) -> Self:
+        """Downloads data-set in current-working directory
+
+        Args:
+            file_name (str): Name of file.
+            dir (str, optional): Target directory. Defaults to os.getcwd().
+        """
+
+        target = os.path.join(dir, file_name)
+        self._request.target = target
+
         return self
     
     def build(self) -> WeatherApi:
