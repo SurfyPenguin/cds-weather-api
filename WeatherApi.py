@@ -11,8 +11,6 @@ from helpers import (
 from typing import Self
 import os
 
-DOWNLOAD_DIR = "/downloads"
-
 type ParameterList = list[str]
 """
 Representation for list which contains string parameters.
@@ -97,8 +95,7 @@ class WeatherApi:
         self.area: BoundingBox = [40, 60, 0, 100]
         self.target: str = None
 
-    def execute(self) -> None:
-        dataset = self.dataset
+    def get_request_dict(self) -> dict[str, str | ParameterList | BoundingBox]:
         request = {"product_type": self.product_type,
             "variable": self.variables,
             "year": self.year,
@@ -109,6 +106,11 @@ class WeatherApi:
             "download_format": self.download_format,
             "area": self.area
         }
+        return request
+
+    def execute(self) -> None:
+        dataset = self.dataset
+        request = self.get_request_dict()
 
         client = cdsapi.Client()
         client.retrieve(dataset, request).download(self.target)
