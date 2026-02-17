@@ -304,5 +304,27 @@ request.execute()
 ```
 Its easily configurable!
 
+## Installation
+
+### Editable Install
+
+```bash
+git clone https://github.com/SurfyPenguin/cds-weather-api.git
+cd cds-weather-api
+pip install -e .
+
+# or with uv
+uv pip install -e .
+```
+
+### Installing wheels
+1. Download latest wheels from [Releases](https://github.com/SurfyPenguin/cds-weather-api/releases/latest)
+2. Install it in your environment:
+```bash
+pip install cds_weather_api-1.0.0-py3-none-any.whl
+
+# or with uv
+uv pip install cds_weather_api-1.0.0-py3-none-any.whl
+```
 # License
 This project is licensed under the MIT License.
