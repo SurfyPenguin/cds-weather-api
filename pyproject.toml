@@ -1,5 +1,5 @@
 [project]
-name = "weather-data"
+name = "cds_weather_api"
 version = "1.0.0"
 description = "Cdsapi wrapper which organizes request attributes."
 readme = "README.md"
