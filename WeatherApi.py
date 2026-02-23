@@ -52,47 +52,23 @@ class WeatherApi:
         area (BoundingBox): Geographical bounding box [North, West, South, East].
     """
     def __init__(self) -> None:
-        self.dataset: str = "reanalysis-era5-single-levels"
-        self.product_type: ParameterList = ["reanalysis"]
-        self.variables: ParameterList = [
-            "10m_u_component_of_wind",
-            "10m_v_component_of_wind",
-            "2m_dewpoint_temperature",
-            "2m_temperature",
-            "total_precipitation"
-        ]
-
-        self.year: ParameterList = ["2025"]
-        self.month: ParameterList = ["01", "02", "03"]
-        self.day: ParameterList = [
-            "01", "02", "03",
-            "04", "05", "06",
-            "07", "08", "09",
-            "10", "11", "12",
-            "13", "14", "15",
-            "16", "17", "18",
-            "19", "20", "21",
-            "22", "23", "24",
-            "25", "26", "27",
-            "28", "29", "30",
-            "31"
-        ]
-
-        self.time: ParameterList = [
-            "00:00", "01:00", "02:00",
-            "03:00", "04:00", "05:00",
-            "06:00", "07:00", "08:00",
-            "09:00", "10:00", "11:00",
-            "12:00", "13:00", "14:00",
-            "15:00", "16:00", "17:00",
-            "18:00", "19:00", "20:00",
-            "21:00", "22:00", "23:00"
-        ]
-
+        # required defaults
         self.data_format: str = "netcdf"
         self.download_format: str = "unarchived"
         
-        self.area: BoundingBox = [40, 60, 0, 100]
+        # dataset info
+        self.dataset: str = None
+        self.product_type: ParameterList = ["reanalysis"]
+        self.variables: ParameterList = None
+
+        # duration
+        self.year: ParameterList = None
+        self.month: ParameterList = None
+        self.day: ParameterList = None
+        self.time: ParameterList = None
+        
+        # area
+        self.area: BoundingBox = None
         self.target: str = None
 
     def get_request_dict(self) -> dict[str, str | ParameterList | BoundingBox]:
@@ -372,4 +348,17 @@ class RequestBuilder():
         return self
     
     def build(self) -> WeatherApi:
+        """Builds and returns the request
+
+        The request object can be executed using `request.execute()`.
+
+        Raises:
+            ValidationError: When all request attributes are not set.
+
+        Returns:
+            WeatherApi: Built request.
+        """
+        request_dict_values = self._request.get_request_dict().values()
+        if not all(request_dict_values):
+            raise ValidationError(f"Please set all the required attributes\nOne or more attributes are 'None'{self._request.__doc__}")
         return self._request
