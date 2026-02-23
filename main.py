@@ -16,7 +16,7 @@ request = (
     .year(2024)
     .month_range(1, 8)
     .day_range(1, 31)
-    .area([40, 60, 0, 100])
+    .area((40, 60, 0, 100))
     .time_range(0, 12)
     .data_format("netcdf")
     .download_format("unarchived")

@@ -22,7 +22,7 @@ Example:
     month = ["01", "02", ..., "30"]
 """
 
-type BoundingBox = list[int | float]
+type BoundingBox = tuple[float, float, float, float]
 """
 Represents a geographical area as a list of four coordinates.
 
