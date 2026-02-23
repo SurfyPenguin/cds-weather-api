@@ -2,6 +2,21 @@
 
 ## A wrapper around Copernicus Climate Data Store API library (cdsapi) to simplify request creation, using builder design pattern.
 
+## Project Structure
+```bash
+cds-weather-api/
+├── exceptions.py
+├── helpers.py
+├── __init__.py
+├── LICENSE
+├── main.py
+├── pyproject.toml
+├── README.md
+├── uv.lock
+└── WeatherApi.py
+```
+## Introduction
+
 Normal way to make request in [cdsapi](https://pypi.org/project/cdsapi/):
 
 *Dataset*: [Reanalysis ERA5 single levels](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview)
