@@ -28,11 +28,11 @@ Represents a geographical area as a list of four coordinates.
 
 Format:
 
-    [North, West, South, East]
+    (North, West, South, East)
 
 Example:
 
-    [90, -120, -90, 180]
+    (90, -120, -90, 180)
 """
 
 class WeatherApi:
