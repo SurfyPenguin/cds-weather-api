@@ -117,10 +117,22 @@ class RequestBuilder():
             raise ValueError(f"The list/tuple must conatain these types only: {types}")
 
     def dataset(self, dataset: str) -> Self:
+        """Dataset for making request.
+
+        For a list of valid datasets visit https://cds.climate.copernicus.eu/datasets
+
+        Args:
+            dataset (str): Name of dataset.
+        """        
         self._request.dataset = dataset
         return self
 
     def product_type(self, product_type: ParameterList) -> Self:
+        """The statistical nature of the data, such as hourly analysis, reanalysis, etc.
+
+        Args:
+            product_type (ParameterList): Product type such as reanalysis, hourly analysis, etc.
+        """        
         # validate
         self._validate_list_of_type(product_type, types=str)
 
@@ -128,6 +140,13 @@ class RequestBuilder():
         return self
     
     def variables(self, variables: ParameterList) -> Self:
+        """Key variables which are considered for request.
+
+        Different datasets may have different variables.
+
+        Args:
+            variables (ParameterList): Variables in string-list.
+        """
         # validate
         self._validate_list_of_type(variables, types=str)
 
