@@ -1,4 +1,4 @@
-from WeatherApi import RequestBuilder
+from CdsApi import RequestBuilder
 
 variables = [
     "10m_u_component_of_wind",
