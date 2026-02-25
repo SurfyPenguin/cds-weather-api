@@ -9,4 +9,4 @@ dependencies = [
     "xarray>=2026.1.0",
 ]
 [tool.setuptools]
-py-modules = ["WeatherApi", "exceptions", "helpers", "main"]
+package-dir = {"" = "src"}
