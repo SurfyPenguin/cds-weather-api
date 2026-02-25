@@ -1,5 +1,5 @@
 from datetime import datetime
-from exceptions import ValidationError
+from .exceptions import ValidationError
 
 ERA5_START_YEAR: int = 1939 # datasets in CDS are available from 1939 
 ERA5_CURRENT_YEAR: int = datetime.now().year # maximum year would be current year
