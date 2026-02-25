@@ -322,17 +322,15 @@ request.execute()
 ```
 Its easily configurable!
 
-## Installation
+## Installation & Updates
 
-### Editable Install
-
+### Using git
+Use the following command to get latest Release:
 ```bash
-git clone https://github.com/SurfyPenguin/cds-weather-api.git
-cd cds-weather-api
-pip install -e .
+pip install git+https://github.com/SurfyPenguin/cds-weather-api.git
 
-# or with uv
-uv pip install -e .
+# using uv
+uv add git+https://github.com/SurfyPenguin/cds-weather-api.git
 ```
 
 ### Installing wheels
@@ -343,6 +341,15 @@ pip install cds_weather_api-1.0.0-py3-none-any.whl
 
 # or with uv
 uv pip install cds_weather_api-1.0.0-py3-none-any.whl
+```
+
+### Update to latest version
+Update to new release
+```bash
+pip install --upgrade git+https://github.com/SurfyPenguin/cds-weather-api.git
+
+# or with uv
+uv add git+https://github.com/SurfyPenguin/cds-weather-api.git
 ```
 # License
 This project is licensed under the MIT License.
