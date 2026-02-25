@@ -5,15 +5,18 @@
 ## Project Structure
 ```bash
 cds-weather-api/
-├── exceptions.py
-├── helpers.py
-├── __init__.py
 ├── LICENSE
-├── main.py
 ├── pyproject.toml
 ├── README.md
-├── uv.lock
-└── WeatherApi.py
+├── src
+│   ├── CdsApi
+│   │   ├── exceptions.py
+│   │   ├── helpers.py
+│   │   ├── __init__.py
+│   │   └── WeatherApi.py
+│   └── examples
+│       └── example.py
+└── uv.lock
 ```
 ## Introduction
 
@@ -125,9 +128,9 @@ With hours the parameters should be strictly in `HH:MM` format where `MM` is mos
 We tried to organize request attributes, using builder-pattern which uses method-chaining to enable fluent interface.
 
 ## Constructing request
-1. Constructing request requires `RequestBuilder` class from `WeatherApi` module.
+1. Constructing request requires `RequestBuilder` class from `CdsApi` module.
 ```python
-from WeatherApi import RequestBuilder
+from CdsApi import RequestBuilder
 ```
 2. Define required 'variables' in a variable for ease.
 ```python
@@ -291,7 +294,7 @@ client.retrieve(dataset, request).download()
 
 * With our cdsapi wrapper:
 ```python
-from WeatherApi import RequestBuilder
+from CdsApi import RequestBuilder
 
 variables = [
     "10m_u_component_of_wind",
