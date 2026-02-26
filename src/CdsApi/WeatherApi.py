@@ -54,7 +54,7 @@ class WeatherApi:
     """
     def __init__(self) -> None:
         # client config
-        self.client = cdsapi.Client()
+        self.client: cdsapi.Client = None
 
         # required defaults
         self.data_format: str = "netcdf"
@@ -102,9 +102,22 @@ class RequestBuilder():
         self._request: WeatherApi = WeatherApi()
 
     def client(self, client: cdsapi.Client | ClientConfig) -> Self:
+        """Set client/configuration for request.
+
+        Client/configuration object can be instantiated using either `cdsapi.Client()` or `ClientConfig.config()`. 
+
+        Args:
+            client (cdsapi.Client | ClientConfig): _description_
+
+        Raises:
+            ValidationError: _description_
+
+        Returns:
+            Self: _description_
+        """
         # validate
         if not isinstance(client, (cdsapi.Client, ClientConfig)):
-            return ValidationError("'client' must be an instance of cdsapi.Client or ClientConfig")
+            raise ValidationError("'client' must be an instance of cdsapi.Client or ClientConfig.")
         
         self._request.client = client
         return self

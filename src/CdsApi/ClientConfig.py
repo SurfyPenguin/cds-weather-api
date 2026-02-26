@@ -28,7 +28,7 @@ class ClientConfig:
         Args:
             url (str | None, optional): API URL. If None, infer from ECMWF_DATASTORES_URL or ECMWF_DATASTORES_RC_FILE. Defaults to None.
             key (str | None, optional): API Key. If None, infer from ECMWF_DATASTORES_KEY or ECMWF_DATASTORES_RC_FILE. Defaults to None.
-            quiet (bool, optional): Defaults to False.
+            quiet (bool, optional): Avoid getting update announcements in terminal. Defaults to False.
             debug (bool, optional): Defaults to False.
             verify (bool, optional): Whether to verify the TLS certificate at the remote end. Defaults to True.
             timeout (float | tuple[float, float], optional): How many seconds to wait for the server to send data, as a float, or a (connect, read) tuple. Defaults to 60.
