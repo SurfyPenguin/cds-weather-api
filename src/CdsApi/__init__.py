@@ -7,12 +7,13 @@ __version__ = "2.1.1"
 __author__ = "SurfyPenguin"
 
 __all__ = [
-    "RequestBuilder",
     "CDSFormatter",
-    "ValidationError",
+    "ClientConfig",
+    "ClientError",
+    "RequestBuilder",
     "LatitudeError",
     "LongitudeError",
-    "client_config",
+    "ValidationError",
     "__version__",
     "__author__",
 ]
