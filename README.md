@@ -336,6 +336,87 @@ request.execute()
 ```
 Its easily configurable!
 
+## Creating Configs
+"Configs" or Clients are basically extension of already available `cdsapi.Client` class in cdsapi. The wrapper class `ClientConfig` is more helpful for developers and IDEs than it is for a normal user, as it provides type-checking and few validations before the final request is returned by `RequestBuilder`.
+
+* Creating a config:
+```python
+from CdsApi import ClientConfig as client
+url = <api url> # not recommended to store api credentials directly
+key = <api key> # just for representation
+
+config = client.config(url=url, key=key)
+```
+Usually API key and url is stored in `.env` file:
+```python
+from CdsApi import ClientConfig as client
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+url = os.environ.get("API_URL")
+key = os.environ.get("API_KEY")
+
+config = client.config(url=url, key=key)
+```
+Again, you can __skip these steps__ by creating `.cdsapirc` file. 
+
+* Using configs in `RequestBuilder`:
+```python
+from CdsApi import ClientConfig as client
+from CdsApi import RequestBuilder
+... # api key & url retrieval
+
+config = client.config(url=url, key=key)
+
+variables = [
+    ... # variables
+]
+
+request = (
+    RequestBuilder()
+    .client(config) # pass the config/client
+    .dataset("reanalysis-era5-single-levels")
+    .product_type(["reanalysis"])
+    .variables(variables)
+    .year(2024)
+    .month_range(1, 8)
+    .day_range(1, 31)
+    .time_range(0, 12)
+    .data_format("netcdf")
+    .download_format("unarchived")
+    .build()
+)
+
+request.execute()
+```
+A config with explicit API __credentials will override__ the credentials in `.cdsapi` for that specific request.
+
+* Multiple configs:
+Not that important but we can create multiple configs for multiple api credentials or for debugging.
+```python
+from CdsApi import ClientConfig as client
+
+# multiple keys
+api_key_1 = client.config(url=url, key=key_1)
+api_key_2 = client.config(url=url, key=key_2)
+
+# multiple profiles
+debug_config = client.config(debug=True, retry_max=10)
+quiet_config = client.config(quiet=True, sleep_max=20) # avoid announcements in terminal
+
+# combined
+combined_config = client.config(
+    quiet=True,
+    timeout=240,
+    wait_until_complete=False,
+    retry_max=20,
+    sleep_max=120,
+)
+```
+At the end of the day, This method only returns an instance of `cdsapi.Client()`, so you are free to use whichever method you want, and pass that config to `RequestBuilder` and it will still work.
+
 ## Installation & Updates
 
 ### Using git
