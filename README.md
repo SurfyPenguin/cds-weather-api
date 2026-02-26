@@ -128,6 +128,19 @@ With hours the parameters should be strictly in `HH:MM` format where `MM` is mos
 # Using the script
 We tried to organize request attributes, using builder-pattern which uses method-chaining to enable fluent interface.
 
+## Getting API Credentials
+Here is how to setup the CDS Api key: \
+If you do not have an account yet, login/register to [CDS](https://cds.climate.copernicus.eu/).
+
+Get api __url__ & __key__ from account settings.
+* For linux: Save your credentials to the file `$HOME/.cdsapirc`
+* For windows: Save your credentials to the file `%USERPROFILE%\.cdsapirc` or `C:\Users\YourUsername\.cdsapirc`
+```
+url: https://cds.climate.copernicus.eu/api
+key: <PERSONAL-ACCESS-TOKEN>
+```
+Alternatively, create an `.env` file and setup config/client using `ClientConfig` class.
+
 ## Constructing request
 1. Constructing request requires `RequestBuilder` class from `CdsApi` module.
 ```python
