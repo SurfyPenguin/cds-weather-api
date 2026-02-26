@@ -115,13 +115,10 @@ class RequestBuilder():
         Client/configuration object can be instantiated using either `cdsapi.Client()` or `ClientConfig.config()`. 
 
         Args:
-            client (cdsapi.Client | ClientConfig): _description_
+            client (cdsapi.Client | ClientConfig): cdsapi.Client instance either from `cdsapi.Client()` or `ClientConfig.config()`.
 
         Raises:
-            ValidationError: _description_
-
-        Returns:
-            Self: _description_
+            ValidationError: When provided 'client' value is not an instance of `cdsapi.Client()`
         """
         # validate
         if not isinstance(client, (cdsapi.Client, client)):
