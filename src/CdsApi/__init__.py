@@ -1,7 +1,7 @@
-from .ClientConfig import ClientConfig
+from .client_config import ClientConfig
 from .exceptions import *
 from .helpers import CDSFormatter
-from .WeatherApi import RequestBuilder
+from .weather_api import RequestBuilder
 
 __version__ = "2.0.0"
 __author__ = "SurfyPenguin"
@@ -12,7 +12,7 @@ __all__ = [
     "ValidationError",
     "LatitudeError",
     "LongitudeError",
-    "ClientConfig",
+    "client_config",
     "__version__",
     "__author__",
 ]

@@ -1,11 +1,24 @@
 import cdsapi
+from .exceptions import ClientError
+import os
 from typing import Any, overload
+
+API_CREDS_FILE = ".cdsapirc"
+HOME_DIR = os.path.expanduser("~")
 
 class ClientConfig:
 
+    @staticmethod
+    def check_api_credentials(**kwargs):
+        kwargs_missing = not kwargs.get("key") or not kwargs.get("url")
+        file_missing = not os.path.isfile(os.path.join(HOME_DIR, API_CREDS_FILE))
+
+        if kwargs_missing and file_missing:
+            raise ClientError(f"Please provide api credentials in client config.\n\tor\ncreate an {API_CREDS_FILE} in 'home' directory.")
+
     @overload
+    @staticmethod
     def config(
-        self,
         *,
         url: str | None = None,
         key: str | None = None,
@@ -21,6 +34,11 @@ class ClientConfig:
         wait_until_complete: bool = True,
         **extra: Any,
     ) -> cdsapi.Client:
+        
+        ...
+
+    @classmethod
+    def config(cls, **kwargs: Any) -> cdsapi.Client:
         """Create or replace the default `cdsapi.Client`.
 
         Reference: https://ecmwf.github.io/ecmwf-datastores-client/_api/datastores/Client.html.
@@ -42,11 +60,5 @@ class ClientConfig:
         Returns:
             cdsapi.Client: Cdsapi client with provided config.
         """
-        ...
-
-    @staticmethod
-    def config(**kwargs: Any) -> cdsapi.Client:
-        """Create or replace the default `cdsapi.Client`"""
-
+        cls.check_api_credentials(**kwargs)
         return cdsapi.Client(**kwargs)
-        

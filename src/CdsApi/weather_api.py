@@ -1,5 +1,5 @@
 import cdsapi
-from .ClientConfig import ClientConfig
+from .client_config import ClientConfig
 from .exceptions import *
 from .helpers import CDSFormatter as fmt
 from .helpers import (
@@ -91,8 +91,9 @@ class WeatherApi:
     def execute(self) -> None:
         dataset = self.dataset
         request = self.get_request_dict()
+        client = self.client or ClientConfig.config()
 
-        self.client.retrieve(dataset, request).download(self.target)
+        client.retrieve(dataset, request).download(self.target)
 
 class RequestBuilder():
     """
@@ -116,7 +117,7 @@ class RequestBuilder():
             Self: _description_
         """
         # validate
-        if not isinstance(client, (cdsapi.Client, ClientConfig)):
+        if not isinstance(client, (cdsapi.Client, client)):
             raise ValidationError("'client' must be an instance of cdsapi.Client or ClientConfig.")
         
         self._request.client = client
@@ -401,7 +402,11 @@ class RequestBuilder():
         Returns:
             WeatherApi: Built request.
         """
-        request_dict_values = self._request.get_request_dict().values()
+        request_dict_values = (
+            self._request
+                .get_request_dict()
+                .values()
+        ) 
         if not all(request_dict_values):
             raise ValidationError(f"Please set all the required attributes\nOne or more attributes are 'None'{self._request.__doc__}")
         return self._request
