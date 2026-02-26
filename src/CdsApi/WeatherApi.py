@@ -1,4 +1,5 @@
 import cdsapi
+from .ClientConfig import ClientConfig
 from .exceptions import *
 from .helpers import CDSFormatter as fmt
 from .helpers import (
@@ -52,6 +53,9 @@ class WeatherApi:
         area (BoundingBox): Geographical bounding box [North, West, South, East].
     """
     def __init__(self) -> None:
+        # client config
+        self.client = cdsapi.Client()
+
         # required defaults
         self.data_format: str = "netcdf"
         self.download_format: str = "unarchived"
@@ -88,8 +92,7 @@ class WeatherApi:
         dataset = self.dataset
         request = self.get_request_dict()
 
-        client = cdsapi.Client()
-        client.retrieve(dataset, request).download(self.target)
+        self.client.retrieve(dataset, request).download(self.target)
 
 class RequestBuilder():
     """
@@ -97,6 +100,14 @@ class RequestBuilder():
     """
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
+
+    def client(self, client: cdsapi.Client | ClientConfig) -> Self:
+        # validate
+        if not isinstance(client, (cdsapi.Client, ClientConfig)):
+            return ValidationError("'client' must be an instance of cdsapi.Client or ClientConfig")
+        
+        self._request.client = client
+        return self
 
     def _validate_list_of_type(self, data: any, types: type | tuple[type, ...]) -> None:
         """Validation for list of provided type(s)

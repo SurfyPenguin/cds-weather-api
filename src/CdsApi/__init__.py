@@ -1,3 +1,4 @@
+from .ClientConfig import ClientConfig
 from .exceptions import *
 from .helpers import CDSFormatter
 from .WeatherApi import RequestBuilder
@@ -11,6 +12,7 @@ __all__ = [
     "ValidationError",
     "LatitudeError",
     "LongitudeError",
+    "ClientConfig",
     "__version__",
     "__author__",
 ]
