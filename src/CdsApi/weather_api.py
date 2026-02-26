@@ -75,8 +75,12 @@ class WeatherApi:
         self.area: BoundingBox = None
         self.target: str = None
 
+        # optional values
+        self.optional = {"area"}
+
     def get_request_dict(self) -> dict[str, str | ParameterList | BoundingBox]:
-        request = {"product_type": self.product_type,
+        request = {
+            "product_type": self.product_type,
             "variable": self.variables,
             "year": self.year,
             "month": self.month,
@@ -91,9 +95,12 @@ class WeatherApi:
     def execute(self) -> None:
         dataset = self.dataset
         request = self.get_request_dict()
-        client = self.client or ClientConfig.config()
 
-        client.retrieve(dataset, request).download(self.target)
+        # filter all None values / clean request
+        filtered = {key: value for key, value in request.items() if value is not None}
+
+        client = self.client or ClientConfig.config()
+        client.retrieve(dataset, filtered).download(self.target)
 
 class RequestBuilder():
     """
@@ -402,11 +409,13 @@ class RequestBuilder():
         Returns:
             WeatherApi: Built request.
         """
-        request_dict_values = (
+        optional = self._request.optional
+
+        request_dict = (
             self._request
                 .get_request_dict()
-                .values()
-        ) 
-        if not all(request_dict_values):
+        )
+        required_values = (value for key, value in request_dict.items() if key not in optional)
+        if not all(required_values):
             raise ValidationError(f"Please set all the required attributes\nOne or more attributes are 'None'{self._request.__doc__}")
         return self._request
