@@ -117,6 +117,11 @@ class RequestBuilder():
         Raises:
             ValueError: If any type mismatch is found.
         """
+        # using all() with empty list would return "True"
+        # explicit check for empty list/tuple
+        if not data:
+            raise ValueError("Provided list/typle can't be empty.")
+
         if not isinstance(data, (list, tuple)):
             raise ValueError(f"Provided data must be 'list' or 'tuple'.")
         
