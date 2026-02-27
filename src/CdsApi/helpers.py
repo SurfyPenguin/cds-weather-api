@@ -1,5 +1,6 @@
 from datetime import datetime
 from .exceptions import ValidationError
+from .types import ParameterList
 
 ERA5_START_YEAR: int = 1939 # datasets in CDS are available from 1939 
 ERA5_CURRENT_YEAR: int = datetime.now().year # maximum year would be current year
@@ -18,7 +19,7 @@ EN_DASH = "–" # proper typography for ranges
 class CDSFormatter:
 
     @staticmethod
-    def format_to_year_list(years: list[int]) -> list[str]:
+    def format_to_year_list(years: list[int]) -> ParameterList:
         """Year list formatter for cdsapi.
 
         Formats any list of integer elements into valid year format.
@@ -27,12 +28,12 @@ class CDSFormatter:
             years (list[int]): List of years in integer.
 
         Returns:
-            list[str]: Formatted years in string-list.
+            ParameterList: Formatted years in string-list.
         """
         return [str(year) for year in years]
 
     @staticmethod
-    def format_to_month_list(months: list[int]) -> list[str]:
+    def format_to_month_list(months: list[int]) -> ParameterList:
         """Month list formatter for cdsapi.
 
         Formats any list of integer elements into valid month format.
@@ -41,12 +42,12 @@ class CDSFormatter:
             years (list[int]): List of months in integer.
 
         Returns:
-            list[str]: Formatted months in string-list.
+            ParameterList: Formatted months in string-list.
         """
         return [f"{month:02d}" for month in months]
     
     @staticmethod
-    def format_to_day_list(days: list[int]) -> list[str]:
+    def format_to_day_list(days: list[int]) -> ParameterList:
         """Day list formatter for cdsapi.
 
         Formats any list of integer elements into valid day format.
@@ -55,12 +56,12 @@ class CDSFormatter:
             years (list[int]): List of days in integer.
 
         Returns:
-            list[str]: Formatted dyas in string-list.
+            ParameterList: Formatted dyas in string-list.
         """
         return [f"{day:02d}" for day in days]
     
     @staticmethod
-    def format_to_hour_list(hours: list[int]) -> list[str]:
+    def format_to_hour_list(hours: list[int]) -> ParameterList:
         """Hour list formatter for cdsapi.
 
         Formats any list of integer elements into valid hour format.
@@ -69,12 +70,12 @@ class CDSFormatter:
             years (list[int]): List of hours in integer.
 
         Returns:
-            list[str]: Formatted hours in string-list.
+            ParameterList: Formatted hours in string-list.
         """
         return [f"{hour:02d}:00" for hour in hours]
 
     @staticmethod
-    def year_range(start: int, stop: int) -> list[str]:
+    def year_range(start: int, stop: int) -> ParameterList:
         """Creates a range of valid years using start and stop (inclusive) values.
 
         This method is helpful for defining year ranges and prevents the need for passing numeric-strings manually.
@@ -91,7 +92,7 @@ class CDSFormatter:
             ValidationError: Raised when start or stop values are not in the years for which datasets are available in CDS.
 
         Returns:
-            list[str]: A list of years in numeric-string.
+            ParameterList: A list of years in numeric-string.
         """
         # validate
         if start < 0 or stop < 0:
@@ -109,7 +110,7 @@ class CDSFormatter:
         return CDSFormatter.format_to_year_list(years)
 
     @staticmethod
-    def month_range(start: int, stop: int) -> list[str]:
+    def month_range(start: int, stop: int) -> ParameterList:
         """Creates a range of valid months using start and stop (inclusive) values.
 
         This method is helpful for defining range of months (in the format required by CDS api).
@@ -126,7 +127,7 @@ class CDSFormatter:
             ValidationError: Raised when provided start or stop value is greater than 12.
 
         Returns:
-            list[str]: A list of months in numeric-string.
+            ParameterList: A list of months in numeric-string.
         """
         # validate
         if start <= 0 or stop <= 0:
@@ -148,7 +149,7 @@ class CDSFormatter:
         return CDSFormatter.format_to_month_list(months)
     
     @staticmethod
-    def day_range(start: int, stop: int) -> list[str]:
+    def day_range(start: int, stop: int) -> ParameterList:
         """Creates a range of valid days using start and stop (inclusive) values.
 
         This method is helpful for defining range of days (in the format required by CDS api).
@@ -163,7 +164,7 @@ class CDSFormatter:
             ValidationError: Raised when start or stop values are not between valid month range (1–31).
 
         Returns:
-            list[str]: A list of days in numeric-string.
+            ParameterList: A list of days in numeric-string.
         """
         # validate
         if start <= 0 or stop <= 0:
@@ -181,7 +182,7 @@ class CDSFormatter:
         return CDSFormatter.format_to_day_list(days)
 
     @staticmethod
-    def time_range(start: int, stop: int) -> list[str]:
+    def time_range(start: int, stop: int) -> ParameterList:
         """Creates a range of valid hours using start and stop (inclusive) values.
 
         This method is helpful for defining range of hours (in the format required by CDS api).
@@ -197,7 +198,7 @@ class CDSFormatter:
             ValidationError: Raised when provided start or stop value is greater than 23.
 
         Returns:
-            list[str]: A list of hours in numeric-string.
+            ParameterList: A list of hours in numeric-string.
         """
         # validate        
         if start < 0 or stop < 0:
