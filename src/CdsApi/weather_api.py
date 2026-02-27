@@ -121,7 +121,7 @@ class RequestBuilder():
             ValidationError: When provided 'client' value is not an instance of `cdsapi.Client()`
         """
         # validate
-        if not isinstance(client, (cdsapi.Client, ClientConfig)):
+        if not isinstance(client, cdsapi.Client):
             raise ValidationError("'client' must be an instance of cdsapi.Client or ClientConfig.")
         
         self._request.client = client
