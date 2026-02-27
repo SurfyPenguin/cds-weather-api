@@ -12,7 +12,7 @@ from .helpers import (
 from typing import Self
 import os
 
-type ParameterList = list[str]
+ParameterList = list[str]
 """
 Representation for list which contains string parameters.
 
@@ -23,7 +23,7 @@ Example:
     month = ["01", "02", ..., "30"]
 """
 
-type BoundingBox = tuple[float, float, float, float]
+BoundingBox = tuple[float, float, float, float]
 """
 Represents a geographical area as a list of four coordinates.
 
