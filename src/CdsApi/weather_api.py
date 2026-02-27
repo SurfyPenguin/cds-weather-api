@@ -56,7 +56,7 @@ class WeatherApi:
         # optional values
         self.optional = {"area"}
 
-    def get_request_dict(self) -> dict[str, str | ParameterList | BoundingBox]:
+    def get_request_dict(self) -> dict[str, Union[str, ParameterList, BoundingBox]]:
         request = {
             "product_type": self.product_type,
             "variable": self.variables,
@@ -105,7 +105,7 @@ class RequestBuilder():
         self._request.client = client
         return self
 
-    def _validate_list_of_type(self, data: any, types: type | tuple[type, ...]) -> None:
+    def _validate_list_of_type(self, data: any, types: Union[type, tuple[type, ...]]) -> None:
         """Validation for list of provided type(s)
 
         Checks if all the elements in a list are of the provided type(s) or not.
@@ -300,7 +300,7 @@ class RequestBuilder():
 
         # validate
         if data_format.lower().strip() not in allowed:
-            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of '{"', '".join(allowed)}'.")
+            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of {allowed}.")
 
         self._request.data_format = data_format
         return self
@@ -323,7 +323,7 @@ class RequestBuilder():
 
         # validate
         if download_format.lower().strip() not in allowed:
-            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of '{"', '".join(allowed)}'.")
+            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of {allowed}.")
         
         self._request.download_format = download_format
         return self
@@ -360,7 +360,7 @@ class RequestBuilder():
         self._request.area = area
         return self
     
-    def target(self, file_name: str | os.PathLike, dir: os.PathLike = os.getcwd()) -> RequestBuilder:
+    def target(self, file_name: Union[str , os.PathLike], dir: os.PathLike = os.getcwd()) -> RequestBuilder:
         """Downloads data-set in current-working directory
 
         Args:
