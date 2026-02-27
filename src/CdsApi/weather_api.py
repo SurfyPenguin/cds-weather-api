@@ -109,13 +109,13 @@ class RequestBuilder():
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
 
-    def client(self, client: cdsapi.Client | ClientConfig) -> Self:
+    def client(self, client: cdsapi.Client) -> Self:
         """Set client/configuration for request.
 
         Client/configuration object can be instantiated using cdsapi.Client. 
 
         Args:
-            client (cdsapi.Client | ClientConfig): cdsapi.Client instance.
+            client (cdsapi.Client): cdsapi.Client instance.
 
         Raises:
             ValidationError: When provided 'client' value is not an instance of `cdsapi.Client()`
@@ -409,8 +409,13 @@ class RequestBuilder():
         optional = self._request.optional
         request_dict = self._request.get_request_dict()
 
+        # validate non api payload parameters
+        if self._request.dataset is None:
+            raise ValidationError("Required field 'dataset' is not set.")
+        
+        # validate api payload parameters
         for key, value in request_dict.items():
             if key not in optional and value is None:
-                raise ValidationError(f"Required field '{key}' is not set")
-            
+                raise ValidationError(f"Required field '{key}' is not set.")
+                      
         return self._request
