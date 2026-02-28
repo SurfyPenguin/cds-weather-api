@@ -86,19 +86,19 @@ class CDSFormatter:
             stop (int): The ending year of the sequence (inclusive).
 
         Raises:
-            ValidationError: Raised when start value is greater than stop value.
             ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raised when start value is greater than or equal to stop value.
             ValidationError: Raised when start or stop values are not in the years for which datasets are available in CDS.
 
         Returns:
             list[str]: A list of years in numeric-string.
         """
         # validate
-        if start > stop:
-            raise ValidationError(f"Start year ({start}) can't be greater than stop year ({stop}).")
-
         if start < 0 or stop < 0:
             raise ValidationError("Years can't be negative or zero.")
+
+        if start >= stop:
+            raise ValidationError(f"Start year ({start}) can't be greater than or equal to stop year ({stop}).")
         
         # CDS datasets start from the year 1939
         if not (ERA5_START_YEAR <= start <= stop <= ERA5_CURRENT_YEAR):
@@ -122,6 +122,7 @@ class CDSFormatter:
 
         Raises:
             ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raise when provided start and stop values are same.
             ValidationError: Raised when provided start or stop value is greater than 12.
 
         Returns:
@@ -130,6 +131,9 @@ class CDSFormatter:
         # validate
         if start <= 0 or stop <= 0:
             raise ValidationError("Months can't be negative or zero.")
+        
+        if start == stop:
+            raise ValidationError("Start and stop month can't be same")
         
         # max value for month is 12
         if start > LAST_MONTH or stop > LAST_MONTH:
@@ -154,20 +158,20 @@ class CDSFormatter:
             stop (int): The ending day of the sequence.
 
         Raises:
-            ValidationError: Raised when start value is greater than stop value.
             ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raised when start value is greater than or equal to stop value.
             ValidationError: Raised when start or stop values are not between valid month range (1–31).
 
         Returns:
             list[str]: A list of days in numeric-string.
         """
         # validate
-        if start > stop:
-            raise ValidationError(f"Start day ({start}) can't be greater than stop day ({stop}).")
-
         if start <= 0 or stop <= 0:
             raise ValidationError("Days can't be negative or zero.")
         
+        if start >= stop:
+            raise ValidationError(f"Start day ({start}) can't be greater than or equal to stop day ({stop}).")
+
         # last day is 31
         if start > LAST_DAY or stop > LAST_DAY:
             raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}.")
@@ -189,6 +193,7 @@ class CDSFormatter:
 
         Raises:
             ValidationError: Raised when provided start or stop value is negative.
+            ValidationError: Raise when provided start and stop values are same.
             ValidationError: Raised when provided start or stop value is greater than 23.
 
         Returns:
@@ -197,6 +202,9 @@ class CDSFormatter:
         # validate        
         if start < 0 or stop < 0:
             raise ValidationError("Time can't be negative.")
+        
+        if start == stop:
+            raise ValidationError("Start and stop time can't be same.")
         
         if start > LAST_HOUR or stop > LAST_HOUR:
             raise ValidationError(f"Time must be between {FIRST_HOUR}{EN_DASH}{LAST_HOUR}.")
