@@ -446,5 +446,33 @@ pip install --upgrade git+https://github.com/SurfyPenguin/cds-weather-api.git
 # or with uv
 uv add git+https://github.com/SurfyPenguin/cds-weather-api.git
 ```
+# Development & Testing
+Project uses [uv standalone](https://docs.astral.sh/uv/getting-started/installation/) for management.
+
+All the tests are based on `pytest` & `pytest-mock`, and very few unit tests are present for now.
+
+## Getting started
+* Clone repository
+```bash
+git clone https://github.com/SurfyPenguin/cds-weather-api.git
+```
+* Install dependencies
+```bash
+uv sync
+```
+## Testing
+* Install `CdsApi` as editable package
+```bash
+uv pip install -e .
+```
+Doing so allows us to perform tests using `pytest`.
+* Run tests
+```bash
+uv run pytest
+
+# verbose
+uv run pytest -v
+```
+
 # License
 This project is licensed under the MIT License.
