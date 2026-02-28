@@ -3,7 +3,7 @@ from .exceptions import *
 from .helpers import CDSFormatter
 from .weather_api import RequestBuilder
 
-__version__ = "2.1.1"
+__version__ = "2.1.2"
 __author__ = "SurfyPenguin"
 
 __all__ = [
