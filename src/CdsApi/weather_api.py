@@ -1,3 +1,4 @@
+from __future__ import annotations
 import cdsapi
 from .client_config import ClientConfig
 from .exceptions import *
@@ -9,32 +10,9 @@ from .helpers import (
     FIRST_HOUR, LAST_HOUR,
     EN_DASH,
 )
-from typing import Self
 import os
-
-type ParameterList = list[str]
-"""
-Representation for list which contains string parameters.
-
-Example:
-
-    product_type = ['reanalysis']
-    day = ["01", "02", "03", ..., "12"]
-    month = ["01", "02", ..., "30"]
-"""
-
-type BoundingBox = tuple[float, float, float, float]
-"""
-Represents a geographical area as a list of four coordinates.
-
-Format:
-
-    (North, West, South, East)
-
-Example:
-
-    (90, -120, -90, 180)
-"""
+from .types import ParameterList, BoundingBox
+from typing import Union
 
 class WeatherApi:
     """
@@ -78,7 +56,7 @@ class WeatherApi:
         # optional values
         self.optional = {"area"}
 
-    def get_request_dict(self) -> dict[str, str | ParameterList | BoundingBox]:
+    def get_request_dict(self) -> dict[str, Union[str, ParameterList, BoundingBox]]:
         request = {
             "product_type": self.product_type,
             "variable": self.variables,
@@ -109,7 +87,7 @@ class RequestBuilder():
     def __init__(self) -> None:
         self._request: WeatherApi = WeatherApi()
 
-    def client(self, client: cdsapi.Client) -> Self:
+    def client(self, client: cdsapi.Client) -> RequestBuilder:
         """Set client/configuration for request.
 
         Client/configuration object can be instantiated using cdsapi.Client. 
@@ -127,7 +105,7 @@ class RequestBuilder():
         self._request.client = client
         return self
 
-    def _validate_list_of_type(self, data: any, types: type | tuple[type, ...]) -> None:
+    def _validate_list_of_type(self, data: any, types: Union[type, tuple[type, ...]]) -> None:
         """Validation for list of provided type(s)
 
         Checks if all the elements in a list are of the provided type(s) or not.
@@ -139,13 +117,18 @@ class RequestBuilder():
         Raises:
             ValueError: If any type mismatch is found.
         """
+        # using all() with empty list would return "True"
+        # explicit check for empty list/tuple
+        if not data:
+            raise ValueError("Provided list/typle can't be empty.")
+
         if not isinstance(data, (list, tuple)):
             raise ValueError(f"Provided data must be 'list' or 'tuple'.")
         
         if not all(isinstance(item, types) for item in data):
             raise ValueError(f"The list/tuple must conatain these types only: {types}")
 
-    def dataset(self, dataset: str) -> Self:
+    def dataset(self, dataset: str) -> RequestBuilder:
         """Dataset for making request.
 
         For a list of valid datasets visit https://cds.climate.copernicus.eu/datasets
@@ -156,7 +139,7 @@ class RequestBuilder():
         self._request.dataset = dataset
         return self
 
-    def product_type(self, product_type: ParameterList) -> Self:
+    def product_type(self, product_type: ParameterList) -> RequestBuilder:
         """The statistical nature of the data, such as hourly analysis, reanalysis, etc.
 
         Args:
@@ -168,7 +151,7 @@ class RequestBuilder():
         self._request.product_type = product_type
         return self
     
-    def variables(self, variables: ParameterList) -> Self:
+    def variables(self, variables: ParameterList) -> RequestBuilder:
         """Key variables which are considered for request.
 
         Different datasets may have different variables.
@@ -182,7 +165,7 @@ class RequestBuilder():
         self._request.variables = variables
         return self
     
-    def year(self, *years: int) -> Self:
+    def year(self, *years: int) -> RequestBuilder:
         """Sets target year(s) for data retrieval.
 
         Provide specific year values in integer format to set those years for request.
@@ -199,7 +182,7 @@ class RequestBuilder():
         self._request.year = fmt.format_to_year_list(years)
         return self
     
-    def year_range(self, start: int, stop: int = ERA5_CURRENT_YEAR) -> Self:
+    def year_range(self, start: int, stop: int = ERA5_CURRENT_YEAR) -> RequestBuilder:
         """Specify starting and ending year values to set years in that range.
         
         For specific year values, it is highly recommended to use `RequestBuilder.year()`
@@ -213,7 +196,7 @@ class RequestBuilder():
         self._request.year = fmt.year_range(start, stop)
         return self
     
-    def month(self, *months: int) -> Self:
+    def month(self, *months: int) -> RequestBuilder:
         """Sets target month(s) for data retrieval.
 
         Provide specific month values in integer format to set those months for request.
@@ -230,7 +213,7 @@ class RequestBuilder():
         self._request.month = fmt.format_to_month_list(months)
         return self
     
-    def month_range(self, start: int, stop: int) -> Self:
+    def month_range(self, start: int, stop: int) -> RequestBuilder:
         """Specify starting and ending month values to set months in that range.
 
         Months are cyclic so starting (`start`) month doesn't need to be less than ending (`stop`) month.
@@ -245,7 +228,7 @@ class RequestBuilder():
         return self
 
     
-    def day(self, *days: int) -> Self:
+    def day(self, *days: int) -> RequestBuilder:
         """Sets target days(s) for data retrieval.
 
         Provide specific day values in integer format to set those months for request.
@@ -262,7 +245,7 @@ class RequestBuilder():
         self._request.day = fmt.format_to_day_list(days)
         return self
     
-    def day_range(self, start: int, stop: int) -> Self:
+    def day_range(self, start: int, stop: int) -> RequestBuilder:
         """Specify starting and ending day values to set days in that range.
 
         For specific day values, it is highly recommended to use `RequestBuilder.day()` method.
@@ -275,7 +258,7 @@ class RequestBuilder():
         self._request.day = fmt.day_range(start, stop)
         return self
     
-    def time(self, *hours) -> Self:
+    def time(self, *hours) -> RequestBuilder:
         """Sets the target hours for data retrieval.
 
         This method accepts a list of timestamps in 24-hour format. It ensures that each entry follows the "HH:MM" convention
@@ -290,7 +273,7 @@ class RequestBuilder():
         self._request.time = fmt.format_to_hour_list(hours)
         return self
     
-    def time_range(self, start: int, stop: int) -> Self:
+    def time_range(self, start: int, stop: int) -> RequestBuilder:
         """Specify starting and ending time values to set hours in that range.
 
         Hours are cyclic so starting (`start`) time doesn't need to be less than ending (`stop`) time.
@@ -304,7 +287,7 @@ class RequestBuilder():
         self._request.time = fmt.time_range(start, stop)
         return self
     
-    def data_format(self, data_format: str) -> Self:
+    def data_format(self, data_format: str) -> RequestBuilder:
         """Sets the data-format in which the dataset would be requested from CDS
 
         This method can take two parameters "netcdf" and "grib"
@@ -322,12 +305,12 @@ class RequestBuilder():
 
         # validate
         if data_format.lower().strip() not in allowed:
-            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of '{"', '".join(allowed)}'.")
+            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of {allowed}.")
 
         self._request.data_format = data_format
         return self
     
-    def download_format(self, download_format: str) -> Self:
+    def download_format(self, download_format: str) -> RequestBuilder:
         """Sets the download-format in which the dataset would be requested from CDS
 
         This method can take two parameters "unarchived" and "zip"
@@ -345,12 +328,12 @@ class RequestBuilder():
 
         # validate
         if download_format.lower().strip() not in allowed:
-            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of '{"', '".join(allowed)}'.")
+            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of {allowed}.")
         
         self._request.download_format = download_format
         return self
     
-    def area(self, area: BoundingBox) -> Self:
+    def area(self, area: BoundingBox) -> RequestBuilder:
         """Sets the geographical bounding box for the ERA5 data request.
 
         Args:
@@ -382,7 +365,7 @@ class RequestBuilder():
         self._request.area = area
         return self
     
-    def target(self, file_name: str | os.PathLike, dir: os.PathLike = os.getcwd()) -> Self:
+    def target(self, file_name: Union[str , os.PathLike], dir: os.PathLike = os.getcwd()) -> RequestBuilder:
         """Downloads data-set in current-working directory
 
         Args:
