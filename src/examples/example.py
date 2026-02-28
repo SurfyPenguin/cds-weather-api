@@ -15,7 +15,7 @@ request = (
     RequestBuilder()
     .client(config)
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year(2024)
     .month_range(1, 8)

@@ -165,7 +165,7 @@ request = RequestBuilder()
 # normal way
 request = RequestBuilder() \
     .dataset("reanalysis-era5-single-levels") \
-    .product_type(["reanalysis"]) \
+    .product_type("reanalysis") \
     .variables(variables) \
     .build() \
 
@@ -173,7 +173,7 @@ request = RequestBuilder() \
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .build() # build() to return constructed request
 )
@@ -183,7 +183,7 @@ request = (
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year_range(2000, 2020) # all years from 2000–2020 (2020 included)
     .month_range(1, 12) # all months (12 included)
@@ -199,7 +199,7 @@ Its taken care of! months and hours are cyclic:
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year_range(2000, 2020)
     .month_range(9, 4) # sets Sep, Oct, Nov, Dec, Jan, Feb, Mar, April (winter season)
@@ -217,7 +217,7 @@ That can be mentioned using the following methods:
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year(2024) # obvious
     .month(1, 3, 5) # Jan, Mar, May
@@ -231,7 +231,7 @@ request = (
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year(2024)
     .month_range(1, 8)
@@ -247,7 +247,7 @@ request = (
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year(2024)
     .month_range(1, 8)
@@ -321,7 +321,7 @@ variables = [
 request = (
     RequestBuilder()
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year(2024)
     .month_range(1, 8)
@@ -378,7 +378,7 @@ request = (
     RequestBuilder()
     .client(config) # pass the config/client
     .dataset("reanalysis-era5-single-levels")
-    .product_type(["reanalysis"])
+    .product_type("reanalysis")
     .variables(variables)
     .year(2024)
     .month_range(1, 8)
