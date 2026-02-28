@@ -3,7 +3,7 @@ name = "cds_weather_api"
 version = "2.1.2"
 description = "Cdsapi wrapper which organizes request attributes."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "cdsapi>=0.7.7",
 ]
