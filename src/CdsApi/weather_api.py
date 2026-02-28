@@ -139,7 +139,7 @@ class RequestBuilder():
         self._request.dataset = dataset
         return self
 
-    def product_type(self, product_type: ParameterList) -> RequestBuilder:
+    def product_type(self, *product_type: ParameterList) -> RequestBuilder:
         """The statistical nature of the data, such as hourly analysis, reanalysis, etc.
 
         Args:
@@ -148,7 +148,7 @@ class RequestBuilder():
         # validate
         self._validate_list_of_type(product_type, types=str)
 
-        self._request.product_type = product_type
+        self._request.product_type = list(product_type)
         return self
     
     def variables(self, variables: ParameterList) -> RequestBuilder:
