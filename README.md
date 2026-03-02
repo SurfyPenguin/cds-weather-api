@@ -1,4 +1,4 @@
-<center><h1>CDS API Request builder</h1></center>
+# CDS API Request builder
 
 ## A wrapper around Copernicus Climate Data Store API library (cdsapi) to simplify request creation, using builder design pattern.
 
@@ -14,9 +14,15 @@ cds-weather-api/
 │   │   ├── exceptions.py
 │   │   ├── helpers.py
 │   │   ├── __init__.py
+│   │   ├── types.py
+│   │   ├── validators.py
 │   │   └── weather_api.py
 │   └── examples
 │       └── example.py
+├── tests
+│   └── unit
+│       ├── test_build.py
+│       └── test_helpers.py
 └── uv.lock
 ```
 ## Introduction

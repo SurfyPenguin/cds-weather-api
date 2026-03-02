@@ -56,7 +56,7 @@ class CDSFormatter:
             years (list[int]): List of days in integer.
 
         Returns:
-            ParameterList: Formatted dyas in string-list.
+            ParameterList: Formatted days in string-list.
         """
         return [f"{day:02d}" for day in days]
     

@@ -11,7 +11,7 @@ Example:
 
 BoundingBox = tuple[float, float, float, float]
 """
-Represents a geographical area as a list of four coordinates.
+Represents a geographical area as a tuple of four coordinates.
 
 Format:
 

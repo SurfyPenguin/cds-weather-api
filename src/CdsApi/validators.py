@@ -14,15 +14,17 @@ class Validators:
             types (type | tuple[type, ...]): Type(s) to be checked.
 
         Raises:
+            ValidationError: Provided list/tuple is empty.
+            ValidationError: Provided data is not list/tuple.
             ValidationError: If any type mismatch is found.
         """
         # using all() with empty list would return "True"
         # explicit check for empty list/tuple
         if not data:
-            raise ValidationError("Provided list/typle can't be empty.")
+            raise ValidationError("Provided list/tuple can't be empty.")
 
         if not isinstance(data, (list, tuple)):
             raise ValidationError(f"Provided data must be 'list' or 'tuple'.")
         
         if not all(isinstance(item, types) for item in data):
-            raise ValidationError(f"The list/tuple must conatain these types only: {types}")
+            raise ValidationError(f"The list/tuple must contain these types only: {types}")
