@@ -271,7 +271,7 @@ class RequestBuilder():
         This method can take two parameters "netcdf" and "grib"
 
         Args:
-            data_format (str): Takes preffered data-format 
+            data_format (str): Takes preferred data-format 
 
         Raises:
             ValidationError: When provided data_format is not allowed/available.
@@ -294,7 +294,7 @@ class RequestBuilder():
         This method can take two parameters "unarchived" and "zip"
 
         Args:
-            data_format (str): Takes preffered download-format
+            data_format (str): Takes preferred download-format
 
         Raises:
             ValidationError: When provided download-format is not allowed/available.
@@ -362,7 +362,8 @@ class RequestBuilder():
         The request object can be executed using `request.execute()`.
 
         Raises:
-            ValidationError: When all request attributes are not set.
+            BuildError: When 'dataset' attribute is not set.
+            BuildError: When required attributes are not set.
 
         Returns:
             WeatherApi: Built request.

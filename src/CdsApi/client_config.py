@@ -7,6 +7,11 @@ API_CREDS_FILE = ".cdsapirc"
 HOME_DIR = os.path.expanduser("~")
 
 class ClientConfig:
+    """Wrapper class of `cdsapi.Client`.
+
+    Returns:
+        cdsapi.Client: Instance of `cdsapi.Client`.
+    """
 
     @staticmethod
     def check_api_credentials(**kwargs):
