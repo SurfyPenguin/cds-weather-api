@@ -1,3 +1,6 @@
+class BuildError(Exception):
+    """Raised when building request fails."""
+
 class ClientError(Exception):
     """Raised when no valid client is provided or .cdsapirc file doesn't exist."""
 

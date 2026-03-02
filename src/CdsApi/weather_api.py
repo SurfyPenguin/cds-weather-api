@@ -394,11 +394,11 @@ class RequestBuilder():
 
         # validate non api payload parameters
         if self._request.dataset is None:
-            raise ValidationError("Required field 'dataset' is not set.")
+            raise BuildError("Required field 'dataset' is not set.")
         
         # validate api payload parameters
         for key, value in request_dict.items():
             if key not in optional and value is None:
-                raise ValidationError(f"Required field '{key}' is not set.")
+                raise BuildError(f"Required field '{key}' is not set.")
                       
         return self._request
