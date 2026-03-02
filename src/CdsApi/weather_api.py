@@ -13,6 +13,7 @@ from .helpers import (
 import os
 from .types import ParameterList, BoundingBox
 from typing import Union
+from .validators import Validators as validate
 
 class WeatherApi:
     """
@@ -105,29 +106,6 @@ class RequestBuilder():
         self._request.client = client
         return self
 
-    def _validate_list_of_type(self, data: any, types: Union[type, tuple[type, ...]]) -> None:
-        """Validation for list of provided type(s)
-
-        Checks if all the elements in a list are of the provided type(s) or not.
-
-        Args:
-            data (any): Data to be validated.
-            types (type | tuple[type, ...]): Type(s) to be checked.
-
-        Raises:
-            ValueError: If any type mismatch is found.
-        """
-        # using all() with empty list would return "True"
-        # explicit check for empty list/tuple
-        if not data:
-            raise ValueError("Provided list/typle can't be empty.")
-
-        if not isinstance(data, (list, tuple)):
-            raise ValueError(f"Provided data must be 'list' or 'tuple'.")
-        
-        if not all(isinstance(item, types) for item in data):
-            raise ValueError(f"The list/tuple must conatain these types only: {types}")
-
     def dataset(self, dataset: str) -> RequestBuilder:
         """Dataset for making request.
 
@@ -146,7 +124,7 @@ class RequestBuilder():
             product_type (ParameterList): Product type such as reanalysis, hourly analysis, etc.
         """        
         # validate
-        self._validate_list_of_type(product_type, types=str)
+        validate.list_of_type(product_type, types=str)
 
         self._request.product_type = list(product_type)
         return self
@@ -160,7 +138,7 @@ class RequestBuilder():
             variables (ParameterList): Variables in string-list.
         """
         # validate
-        self._validate_list_of_type(variables, types=str)
+        validate.list_of_type(variables, types=str)
 
         self._request.variables = variables
         return self
@@ -173,7 +151,7 @@ class RequestBuilder():
         The years must be between 1939–Current.
         """
         # validate
-        self._validate_list_of_type(years, types=int)
+        validate.list_of_type(years, types=int)
 
         # for valid years
         if not all(year in range(ERA5_START_YEAR, ERA5_CURRENT_YEAR + 1) for year in years):
@@ -204,7 +182,7 @@ class RequestBuilder():
         The months must be between 1–12.
         """
         # validate
-        self._validate_list_of_type(months, types=int)
+        validate.list_of_type(months, types=int)
 
         # for valid months
         if not all(month in range(FIRST_MONTH, LAST_MONTH + 1) for month in months):
@@ -236,7 +214,7 @@ class RequestBuilder():
         The days must be between 1–31.
         """
         # validate
-        self._validate_list_of_type(days, types=int)
+        validate.list_of_type(days, types=int)
 
         # for valid days
         if not all(day in range(FIRST_DAY, LAST_DAY + 1) for day in days):
@@ -264,7 +242,7 @@ class RequestBuilder():
         This method accepts a list of timestamps in 24-hour format. It ensures that each entry follows the "HH:MM" convention
         """
         # validate
-        self._validate_list_of_type(hours, types=int)
+        validate.list_of_type(hours, types=int)
 
         # for valid hours
         if not all(hour in range(FIRST_HOUR, LAST_HOUR + 1) for hour in hours):
@@ -346,7 +324,7 @@ class RequestBuilder():
         """
 
         # validate type
-        self._validate_list_of_type(area, types=(int, float))
+        validate.list_of_type(area, types=(int, float))
 
         # validate length
         if len(area) != 4:
