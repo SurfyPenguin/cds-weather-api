@@ -1,8 +1,9 @@
 from CdsApi.weather_api import RequestBuilder
 
 class TestRequestBuilder:
-    
+
     def test_builder_minimal(self):
+        """Test request creation with minimum methods."""
         variables = [
             "10m_u_component_of_wind",
             "10m_v_component_of_wind",
