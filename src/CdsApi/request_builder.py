@@ -164,14 +164,14 @@ class RequestBuilder():
         For specific day values, it is highly recommended to use `RequestBuilder.day()` method.
 
         Args:
-            start (int): Starting day value (1–12).
-            stop (int): Ending day value (1–12, inclusive).
+            start (int): Starting day value (1–31).
+            stop (int): Ending day value (1–31, inclusive).
         """
         # to get day range in list[str]
         self._request.day = fmt.day_range(start, stop)
         return self
     
-    def time(self, *hours) -> RequestBuilder:
+    def time(self, *hours: int) -> RequestBuilder:
         """Sets the target hours for data retrieval.
 
         This method accepts a list of timestamps in 24-hour format. It ensures that each entry follows the "HH:MM" convention
@@ -217,7 +217,7 @@ class RequestBuilder():
         data_format = data_format.strip().lower()
 
         # validate
-        if data_format.lower().strip() not in allowed:
+        if data_format not in allowed:
             raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of {allowed}.")
 
         self._request.data_format = data_format
@@ -240,7 +240,7 @@ class RequestBuilder():
         download_format = download_format.strip().lower()
 
         # validate
-        if download_format.lower().strip() not in allowed:
+        if download_format not in allowed:
             raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of {allowed}.")
         
         self._request.download_format = download_format
