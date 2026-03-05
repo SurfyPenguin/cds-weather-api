@@ -1,5 +1,6 @@
 from typing import Union
-from .exceptions import ValidationError
+from .exceptions import BuildError, ValidationError
+from .weather_api import WeatherApi
 
 class Validators:
 
@@ -28,3 +29,27 @@ class Validators:
         
         if not all(isinstance(item, types) for item in data):
             raise ValidationError(f"The list/tuple must contain these types only: {types}")
+        
+    @staticmethod
+    def build_request_parameters(request: WeatherApi) -> None:
+        """Validation for request parameters in a particular `WeatherApi` request instance.
+
+        Validates api payload parameters for not-set (None) values.
+ 
+        Args:
+            request (WeatherApi): `WeatherApi` request instance.
+
+        Raises:
+            BuildError: When `dataset` parameter is not set.
+            BuildError: When non-optional parameters are not set.
+        """
+        request_dict = request.get_request_dict()
+
+        # validate non api payload parameters
+        if request.dataset is None:
+            raise BuildError("Required field 'dataset' is not set.")
+        
+        # validate api payload parameters
+        for key, value in request_dict.items():
+            if key not in request.optional and value is None:
+                raise BuildError(f"Required field '{key}' is not set.")
