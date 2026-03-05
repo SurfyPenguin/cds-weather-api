@@ -253,31 +253,13 @@ class RequestBuilder():
             area (BoundingBox): Coordinates of bounding area in the format [N, W, S, E].
 
         Raises:
-            ValidationError: Raised when provided BoundingBox doesn't have 4 values.
-            LatitudeError: Raised for invalid latitudes when south is greater than north.
-            LongitudeError: Raised for invalid longitudes when West is not within [-180, 180].
-            LongitudeError: Raised for invalid longitudes when East is not within [-180, 180].
+            ValidationError: BoundingBox doesn't have 4 values.
+            LatitudeError: South is greater than north, or values are outside [-90, 90].
+            LongitudeError: West or East is outside [-180, 180].
         """
-
         # validate type
         validate.list_of_type(area, types=(int, float))
-
-        # validate length
-        if len(area) != 4:
-            raise ValidationError("BoundingBox must have exactly 4 values: [N, W, S, E]")
-        
-        n, w, s, e = area
-
-        # Latitude checks
-        if not (-90 <= s <= n <= 90):
-            raise LatitudeError(f"North ({n}) must be >= South ({s}) and both within [-90, 90]")
-        
-        # Longitude checks
-        if not (-180 <= w <= 180):
-            raise LongitudeError(f"West ({w}) must be within [-180, 180]")
-        
-        if not (-180 <= e <= 180):
-            raise LongitudeError(f"East ({e}) must be within [-180, 180]")
+        validate.bounding_box(area)
 
         self._request.area = area
         return self
@@ -302,6 +284,10 @@ class RequestBuilder():
 
         Returns:
             WeatherApi: Built request.
+
+        Raises:
+            BuildError: When `dataset` parameter is not set.
+            BuildError: When non-optional parameters are not set.
         """
         validate.build_request_parameters(self._request)
         return self._request
