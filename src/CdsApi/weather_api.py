@@ -318,9 +318,10 @@ class RequestBuilder():
             area (BoundingBox): Coordinates of bounding area in the format [N, W, S, E].
 
         Raises:
-            ValidationError: Raised when provided BoundingBox doesn't have 4 values
-            LatitudeError: Raised for invalid latitudes
-            ValidationError: Raised for invalid longitudes
+            ValidationError: Raised when provided BoundingBox doesn't have 4 values.
+            LatitudeError: Raised for invalid latitudes when south is greater than north.
+            LongitudeError: Raised for invalid longitudes when West is not within [-180, 180].
+            LongitudeError: Raised for invalid longitudes when East is not within [-180, 180].
         """
 
         # validate type
@@ -337,8 +338,11 @@ class RequestBuilder():
             raise LatitudeError(f"North ({n}) must be >= South ({s}) and both within [-90, 90]")
         
         # Longitude checks
-        if not (-180 <= w <= e <= 180):
-            raise LongitudeError(f"East ({e}) must be >= West ({w}) and both within [-180, 180]")
+        if not (-180 <= w <= 180):
+            raise LongitudeError(f"West ({w}) must be within [-180, 180]")
+        
+        if not (-180 <= e <= 180):
+            raise LongitudeError(f"East ({e}) must be within [-180, 180]")
 
         self._request.area = area
         return self
