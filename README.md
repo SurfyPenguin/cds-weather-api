@@ -14,6 +14,7 @@ cds-weather-api/
 │   │   ├── exceptions.py
 │   │   ├── helpers.py
 │   │   ├── __init__.py
+│   │   ├── request_builder.py
 │   │   ├── types.py
 │   │   ├── validators.py
 │   │   └── weather_api.py
@@ -22,7 +23,8 @@ cds-weather-api/
 ├── tests
 │   └── unit
 │       ├── test_build.py
-│       └── test_helpers.py
+│       ├── test_helpers.py
+│       └── test_validators.py
 └── uv.lock
 ```
 ## Introduction
