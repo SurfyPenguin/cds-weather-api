@@ -1,15 +1,8 @@
 from __future__ import annotations
 import cdsapi
-from .client_config import ClientConfig
 from .exceptions import *
 from .helpers import CDSFormatter as fmt
-from .helpers import (
-    ERA5_CURRENT_YEAR, ERA5_START_YEAR,
-    FIRST_MONTH, LAST_MONTH,
-    FIRST_DAY, LAST_DAY,
-    FIRST_HOUR, LAST_HOUR,
-    EN_DASH,
-)
+from .helpers import ERA5_CURRENT_YEAR
 import os
 from .types import ParameterList, BoundingBox
 from typing import Union
@@ -88,7 +81,7 @@ class RequestBuilder():
         # validate
         validate.list_of_type(years, types=int)
         validate.years(years)
-        
+
         self._request.year = fmt.format_to_year_list(years)
         return self
     
