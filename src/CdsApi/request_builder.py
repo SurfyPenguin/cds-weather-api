@@ -87,11 +87,8 @@ class RequestBuilder():
         """
         # validate
         validate.list_of_type(years, types=int)
-
-        # for valid years
-        if not all(year in range(ERA5_START_YEAR, ERA5_CURRENT_YEAR + 1) for year in years):
-            raise ValidationError(f"Years must be between {ERA5_START_YEAR}{EN_DASH}{ERA5_CURRENT_YEAR}")
-
+        validate.years(years)
+        
         self._request.year = fmt.format_to_year_list(years)
         return self
     
@@ -118,10 +115,7 @@ class RequestBuilder():
         """
         # validate
         validate.list_of_type(months, types=int)
-
-        # for valid months
-        if not all(month in range(FIRST_MONTH, LAST_MONTH + 1) for month in months):
-            raise ValidationError(f"Months must be between {FIRST_MONTH}{EN_DASH}{LAST_MONTH}")
+        validate.months(months)
 
         self._request.month = fmt.format_to_month_list(months)
         return self
@@ -150,10 +144,7 @@ class RequestBuilder():
         """
         # validate
         validate.list_of_type(days, types=int)
-
-        # for valid days
-        if not all(day in range(FIRST_DAY, LAST_DAY + 1) for day in days):
-            raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}")
+        validate.days(days)
 
         self._request.day = fmt.format_to_day_list(days)
         return self
@@ -178,10 +169,7 @@ class RequestBuilder():
         """
         # validate
         validate.list_of_type(hours, types=int)
-
-        # for valid hours
-        if not all(hour in range(FIRST_HOUR, LAST_HOUR + 1) for hour in hours):
-            raise ValidationError(f"Hours must be between {FIRST_HOUR}{EN_DASH}{LAST_HOUR}")
+        validate.hours(hours)
 
         self._request.time = fmt.format_to_hour_list(hours)
         return self
@@ -211,14 +199,7 @@ class RequestBuilder():
         Raises:
             ValidationError: When provided data_format is not allowed/available.
         """
-        allowed = ["netcdf", "grib"]
-        
-        # clean
-        data_format = data_format.strip().lower()
-
-        # validate
-        if data_format not in allowed:
-            raise ValidationError(f"Invalid data_format {data_format}. Data format must be one of {allowed}.")
+        validate.data_format(data_format)
 
         self._request.data_format = data_format
         return self
@@ -234,15 +215,8 @@ class RequestBuilder():
         Raises:
             ValidationError: When provided download-format is not allowed/available.
         """
-        allowed = ["unarchived", "zip"]
+        validate.download_format(download_format)
 
-        # clean
-        download_format = download_format.strip().lower()
-
-        # validate
-        if download_format not in allowed:
-            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of {allowed}.")
-        
         self._request.download_format = download_format
         return self
     
