@@ -1,7 +1,7 @@
 from CdsApi import RequestBuilder
 from CdsApi import ClientConfig as client
 
-config = client.config(quiet=True, wait_until_complete=False)
+config = client.config(quiet=False, wait_until_complete=False)
 
 variables = [
     "10m_u_component_of_wind",
