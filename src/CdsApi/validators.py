@@ -92,7 +92,7 @@ class Validators:
             raise ValidationError(f"Hours must be between {FIRST_HOUR}{EN_DASH}{LAST_HOUR}")
 
     @staticmethod
-    def data_format(format: str) -> None:
+    def data_format(data_format: str) -> None:
         """Validation for dataset format.
 
         Checks if provided data format is allowed.
@@ -102,7 +102,7 @@ class Validators:
             ["netcdf", "grib"]
 
         Args:
-            format (str): Dataset format.
+            data_format (str): Dataset format.
 
         Raises:
             ValidationError: When provided format is invalid.
@@ -110,14 +110,14 @@ class Validators:
         allowed = ["netcdf", "grib"]
 
         # clean
-        format = format.strip().lower()
+        data_format = data_format.strip().lower()
 
         # validate
-        if format not in allowed:
-            raise ValidationError(f"Invalid download_format {format}. Download format must be one of {allowed}.")
+        if data_format not in allowed:
+            raise ValidationError(f"Invalid download_format {data_format}. Download format must be one of {allowed}.")
 
     @staticmethod
-    def download_format(format: str) -> None:
+    def download_format(download_format: str) -> None:
         """Validation for download format.
 
         Checks if provided data format is allowed.
@@ -127,7 +127,7 @@ class Validators:
             ["unarchived", "zip"]
 
         Args:
-            format (str): Download format.
+            download_format (str): Download format.
 
         Raises:
             ValidationError: When provided format is invalid.
@@ -135,11 +135,11 @@ class Validators:
         allowed = ["unarchived", "zip"]
 
         # clean
-        format = format.strip().lower()
+        download_format = download_format.strip().lower()
 
         # validate
-        if format not in allowed:
-            raise ValidationError(f"Invalid download_format {format}. Download format must be one of {allowed}.")
+        if download_format not in allowed:
+            raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of {allowed}.")
         
     @staticmethod
     def bounding_box(area: BoundingBox) -> None:
