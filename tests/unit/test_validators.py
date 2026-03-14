@@ -31,3 +31,45 @@ class TestValidators:
         """Test that exceptions are raised for a set of invalid values."""
         with pytest.raises(ValidationError):
             Validators.list_of_type(data, types)
+
+    @pytest.mark.parametrize("years", [
+        [1, 5, 9, 12, 33],
+        [33, 35, 12, -1],
+        [-1, -4, -6, -9]
+    ])
+    def test_years(self, years):
+        """Test that exceptions are raised for a set of invalid years-list."""
+        with pytest.raises(ValidationError):
+            Validators.years(years)
+
+    @pytest.mark.parametrize("months", [
+        [1, 5, 9, 12, 33],
+        [33, 35, 12, -1],
+        [-1, -4, -6, -9]
+    ])
+    def test_months(self, months):
+        """Test that exceptions are raised for a set of invalid months-list."""
+        with pytest.raises(ValidationError):
+            Validators.months(months)
+
+    @pytest.mark.parametrize("days", [
+        [1, 5, 9, 12, 33],
+        [33, 35, 12, -1],
+        [-1, -4, -6, -9]
+    ])
+    def test_days(self, days):
+        """Test that exceptions are raised for a set of invalid days-list."""
+        with pytest.raises(ValidationError):
+            Validators.days(days)
+
+    @pytest.mark.parametrize("hours", [
+        [1, 5, 9, 12, 33],
+        [33, 35, 12, -1],
+        [-1, -4, -6, -9]
+    ])
+    def test_hours(self, hours):
+        """Test that exceptions are raised for a set of invalid hours-list."""
+        with pytest.raises(ValidationError):
+            Validators.hours(hours)
+
+    
