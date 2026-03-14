@@ -1,22 +1,30 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cds_weather_api"
 version = "2.1.3"
 description = "Cdsapi wrapper which organizes request attributes."
 readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.11"
+keywords = ["climate", "ERA5", "weather", "CDS"]
 dependencies = [
     "cdsapi>=0.7.7",
 ]
 
 [project.optional-dependencies]
-analysis = [
-    "xarray>=2026.2.0",
-]
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[dependency-groups]
 dev = [
     "pytest>=9.0.2",
     "pytest-mock>=3.15.1",
 ]
+analysis = [
+    "xarray>=2026.2.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[project.urls]
+Repository = "https://github.com/SurfyPenguin/cds-weather-api"
