@@ -155,20 +155,23 @@ class Validators:
         """
         # validate length
         if len(area) != 4:
-            raise ValidationError("BoundingBox must have exactly 4 values: [N, W, S, E]")
+            raise ValidationError("BoundingBox must have exactly 4 values: [N, W, S, E].")
         
         n, w, s, e = area
 
         # Latitude checks
         if not (-90 <= s <= n <= 90):
-            raise LatitudeError(f"North ({n}) must be >= South ({s}) and both within [-90, 90]")
+            raise LatitudeError(f"North ({n}) must be >= South ({s}) and both within [-90, 90].")
         
         # Longitude checks
         if not (-180 <= w <= 180):
-            raise LongitudeError(f"West ({w}) must be within [-180, 180]")
+            raise LongitudeError(f"West ({w}) must be within [-180, 180].")
         
         if not (-180 <= e <= 180):
-            raise LongitudeError(f"East ({e}) must be within [-180, 180]")
+            raise LongitudeError(f"East ({e}) must be within [-180, 180].")
+        
+        if not (w <= e):
+            raise LongitudeError(f"West ({w}) must be less than East ({e}).")
         
     @staticmethod
     def build_request_parameters(request: WeatherApi) -> None:
