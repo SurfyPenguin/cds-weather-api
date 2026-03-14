@@ -469,6 +469,12 @@ git clone https://github.com/SurfyPenguin/cds-weather-api.git
 uv sync
 ```
 ## Testing
+* Sync: Install extra dependencies
+```python
+uv sync --extra dev
+# or
+pip install "pytest[dev]"
+```
 * Install `CdsApi` as editable package
 ```bash
 uv pip install -e .
