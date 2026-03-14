@@ -1,4 +1,4 @@
-from CdsApi.exceptions import ValidationError
+from CdsApi.exceptions import *
 from CdsApi.validators import Validators
 import pytest
 
@@ -72,4 +72,15 @@ class TestValidators:
         with pytest.raises(ValidationError):
             Validators.hours(hours)
 
-    
+    @pytest.mark.parametrize("bbox", [
+        [20, 8, 90, 80], # top-edge, lies below bottom-edge
+        [60, 80, 40, 20], # left-edge, lies to the right of right-edge
+        [-66, 24, -91, 50], # bottom-edge not within (-90, 90)
+        [180, 24, -88, 6], # top-edge not within (-90, 90)
+        [60, 190, 40, 80], # left-edge not within (-180, 180)
+        [60, 90, 40, -190], # right-edge not within (-180, 180)
+    ])
+    def test_bounding_box(self, bbox):
+        """Test that exceptions are raised for a set of invalid BoundingBox tuples."""
+        with pytest.raises((ValidationError, LatitudeError, LongitudeError)):
+            Validators.bounding_box(bbox)
