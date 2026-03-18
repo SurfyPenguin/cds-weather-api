@@ -1,7 +1,9 @@
-import cdsapi
-from .exceptions import ClientError
 import os
 from typing import Any, overload
+
+import cdsapi
+
+from .exceptions import ClientError
 
 API_CREDS_FILE = ".cdsapirc"
 HOME_DIR = os.path.expanduser("~")
