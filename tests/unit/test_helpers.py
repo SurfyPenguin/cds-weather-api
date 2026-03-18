@@ -1,5 +1,5 @@
-from CdsApi.helpers import CDSFormatter
-from CdsApi.exceptions import ValidationError
+from cds_weather_api.helpers import CDSFormatter
+from cds_weather_api.exceptions import ValidationError
 import pytest
 
 # test formatters

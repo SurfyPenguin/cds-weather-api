@@ -1,5 +1,5 @@
-from CdsApi import RequestBuilder
-from CdsApi import ClientConfig as client
+from cds_weather_api import RequestBuilder
+from cds_weather_api import ClientConfig as client
 
 config = client.config(quiet=False, wait_until_complete=False)
 

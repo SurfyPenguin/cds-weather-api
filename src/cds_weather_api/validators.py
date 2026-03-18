@@ -37,7 +37,7 @@ class Validators:
             raise ValidationError("Provided list/tuple can't be empty.")
 
         if not isinstance(data, (list, tuple)):
-            raise ValidationError(f"Provided data must be 'list' or 'tuple'.")
+            raise ValidationError("Provided data must be 'list' or 'tuple'.")
         
         if not all(isinstance(item, types) for item in data):
             raise ValidationError(f"The list/tuple must contain these types only: {types}")

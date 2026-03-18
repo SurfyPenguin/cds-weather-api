@@ -9,7 +9,7 @@ cds-weather-api/
 ├── pyproject.toml
 ├── README.md
 ├── src
-│   ├── CdsApi
+│   ├── cds_weather_api
 │   │   ├── client_config.py
 │   │   ├── exceptions.py
 │   │   ├── helpers.py
@@ -150,9 +150,9 @@ key: <PERSONAL-ACCESS-TOKEN>
 Alternatively, create an `.env` file and setup config/client using `ClientConfig` class.
 
 ## Constructing request
-1. Constructing request requires `RequestBuilder` class from `CdsApi` module.
+1. Constructing request requires `RequestBuilder` class from `cds_weather_api` package.
 ```python
-from CdsApi import RequestBuilder
+from cds_weather_api import RequestBuilder
 ```
 2. Define required 'variables' in a variable for ease.
 ```python
@@ -164,18 +164,18 @@ variables = [
     "total_precipitation"
 ]
 ```
-3. Define the request with `RequestBuilder()`
+3. Build a request with `RequestBuilder()`
 ```python
 request = RequestBuilder()
 ```
-4. Try to access methods and use the ones required like this:
+4. Use method chaining to configure the request parameters, then call `build()` to construct the final request object: 
 ```python
 # normal way
 request = RequestBuilder() \
     .dataset("reanalysis-era5-single-levels") \
     .product_type("reanalysis") \
     .variables(variables) \
-    .build() \
+    .build()
 
 # cleaner format to do the same thing
 request = (
@@ -316,7 +316,7 @@ client.retrieve(dataset, request).download()
 
 * With our cdsapi wrapper:
 ```python
-from CdsApi import RequestBuilder
+from cds_weather_api import RequestBuilder
 
 variables = [
     "10m_u_component_of_wind",
@@ -349,7 +349,7 @@ Its easily configurable!
 
 * Creating a config:
 ```python
-from CdsApi import ClientConfig as client
+from cds_weather_api import ClientConfig as client
 url = <api url> # not recommended to store api credentials directly
 key = <api key> # just for representation
 
@@ -357,7 +357,7 @@ config = client.config(url=url, key=key)
 ```
 Usually API key and url is stored in `.env` file:
 ```python
-from CdsApi import ClientConfig as client
+from cds_weather_api import ClientConfig as client
 from dotenv import load_dotenv
 import os
 
@@ -372,8 +372,8 @@ Again, you can __skip these steps__ by creating `.cdsapirc` file.
 
 * Using configs in `RequestBuilder`:
 ```python
-from CdsApi import ClientConfig as client
-from CdsApi import RequestBuilder
+from cds_weather_api import ClientConfig as client
+from cds_weather_api import RequestBuilder
 ... # api key & url retrieval
 
 config = client.config(url=url, key=key)
@@ -404,7 +404,7 @@ A config with explicit API __credentials will override__ the credentials in `.cd
 * Multiple configs:
 Not that important but we can create multiple configs for multiple api credentials or for debugging.
 ```python
-from CdsApi import ClientConfig as client
+from cds_weather_api import ClientConfig as client
 
 # multiple keys
 api_key_1 = client.config(url=url, key=key_1)
@@ -475,7 +475,7 @@ uv sync --extra dev
 # or
 pip install "pytest[dev]"
 ```
-* Install `CdsApi` as editable package
+* Install `cds_weather_api` as editable package
 ```bash
 uv pip install -e .
 ```

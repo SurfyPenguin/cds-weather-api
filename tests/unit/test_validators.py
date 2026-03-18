@@ -1,9 +1,9 @@
-from CdsApi.exceptions import (
+from cds_weather_api.exceptions import (
     LatitudeError,
     LongitudeError,
     ValidationError,
 )
-from CdsApi.validators import Validators
+from cds_weather_api.validators import Validators
 import pytest
 
 class TestValidators:

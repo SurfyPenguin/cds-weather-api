@@ -1,4 +1,4 @@
-from CdsApi.request_builder import RequestBuilder
+from cds_weather_api.request_builder import RequestBuilder
 
 class TestRequestBuilder:
 
