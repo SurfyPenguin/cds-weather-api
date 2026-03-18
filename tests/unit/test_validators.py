@@ -1,4 +1,8 @@
-from CdsApi.exceptions import *
+from CdsApi.exceptions import (
+    LatitudeError,
+    LongitudeError,
+    ValidationError,
+)
 from CdsApi.validators import Validators
 import pytest
 
