@@ -40,9 +40,7 @@ class ClientConfig:
         sleep_max: int = 120,
         wait_until_complete: bool = True,
         **extra: Any,
-    ) -> cdsapi.Client:
-        
-        ...
+    ) -> cdsapi.Client: ...
 
     @classmethod
     def config(cls, **kwargs: Any) -> cdsapi.Client:

@@ -2,7 +2,6 @@ from __future__ import annotations
 import cdsapi
 from .client_config import ClientConfig
 from .types import ParameterList, BoundingBox
-from typing import Union
 
 class WeatherApi:
     """
@@ -46,7 +45,7 @@ class WeatherApi:
         # optional values
         self.optional = {"area"}
 
-    def get_request_dict(self) -> dict[str, Union[str, ParameterList, BoundingBox]]:
+    def get_request_dict(self) -> dict[str, str | ParameterList | BoundingBox]:
         request = {
             "product_type": self.product_type,
             "variable": self.variables,

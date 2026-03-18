@@ -1,13 +1,11 @@
 from __future__ import annotations
 import os
-from typing import Union
 
 import cdsapi
 
 from .exceptions import ValidationError
 from .helpers import CDSFormatter as fmt, ERA5_CURRENT_YEAR
 from .types import ParameterList, BoundingBox
-from typing import Union
 from .validators import Validators as validate
 from .weather_api import WeatherApi
 
@@ -233,7 +231,7 @@ class RequestBuilder():
         self._request.area = area
         return self
     
-    def target(self, file_name: Union[str , os.PathLike], dir: os.PathLike = os.getcwd()) -> RequestBuilder:
+    def target(self, file_name: str | os.PathLike, dir: os.PathLike = os.getcwd()) -> RequestBuilder:
         """Downloads data-set in current-working directory
 
         Args:

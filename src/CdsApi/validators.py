@@ -7,13 +7,12 @@ from .helpers import (
     FIRST_HOUR, LAST_HOUR,
 )
 from .types import BoundingBox
-from typing import Union
 from .weather_api import WeatherApi
 
 class Validators:
 
     @staticmethod
-    def list_of_type(data: any, types: Union[type, tuple[type, ...]]) -> None:
+    def list_of_type(data: any, types: type | tuple[type, ...]) -> None:
         """Validation for list of provided type(s).
 
         Checks if all the elements in a list are of the provided type(s) or not.
