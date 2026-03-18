@@ -10,8 +10,8 @@ __author__ = "SurfyPenguin"
 __all__ = [
     "CDSFormatter",
     "ClientConfig",
-    "ClientError",
     "RequestBuilder",
+    "WeatherApi"
     "BuildError",
     "ClientError",
     "LatitudeError",
