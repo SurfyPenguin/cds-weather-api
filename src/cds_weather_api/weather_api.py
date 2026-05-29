@@ -28,19 +28,19 @@ class WeatherApi:
         self.download_format: str = "unarchived"
         
         # dataset info
-        self.dataset: str = None
+        self.dataset: str | None = None
         self.product_type: ParameterList = ["reanalysis"]
-        self.variables: ParameterList = None
+        self.variables: ParameterList | None = None
 
         # duration
-        self.year: ParameterList = None
-        self.month: ParameterList = None
-        self.day: ParameterList = None
-        self.time: ParameterList = None
+        self.year: ParameterList | None = None
+        self.month: ParameterList |None = None
+        self.day: ParameterList | None = None
+        self.time: ParameterList | None = None
         
         # area
-        self.area: BoundingBox = None
-        self.target: str = None
+        self.area: BoundingBox | None = None
+        self.target: str | None = None
 
         # optional values
         self.optional = {"area"}
