@@ -1,4 +1,4 @@
-from cds_weather_api.helpers import CDSFormatter
+from cds_weather_api import helpers
 from cds_weather_api.exceptions import ValidationError
 import pytest
 
@@ -14,12 +14,12 @@ class TestHelpersYearFormatter:
 
     def test_format_to_year_list(self):
         """Test that valid string-lists for years are returned."""
-        result = CDSFormatter.format_to_year_list([1999, 2012, 2015, 2019, 2024])
+        result = helpers.format_to_year_list([1999, 2012, 2015, 2019, 2024])
         assert result == ["1999", "2012", "2015", "2019", '2024']
 
     def test_year_range(self):
         """Test that valid year ranges are returned."""
-        result = CDSFormatter.year_range(start=1999, stop=2024)
+        result = helpers.year_range(start=1999, stop=2024)
         assert result == [
             '1999', '2000',
             '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010',
@@ -30,7 +30,7 @@ class TestHelpersYearFormatter:
     @pytest.mark.parametrize("start, stop", INVALID_YEAR_RANGES)
     def test_year_range_invalid(self, start: int, stop: int):
         with pytest.raises(ValidationError):
-            CDSFormatter.year_range(start, stop)
+            helpers.year_range(start, stop)
 
 class TestHelpersMonthFormatter:
 
@@ -42,23 +42,23 @@ class TestHelpersMonthFormatter:
     
     def test_format_to_month_list(self):
         """Test that valid string-lists for months are returned."""
-        result = CDSFormatter.format_to_month_list([1, 2, 3, 4, 5, 12])
+        result = helpers.format_to_month_list([1, 2, 3, 4, 5, 12])
         assert result == ["01", "02", "03", "04", "05", "12"]
 
     def test_month_range_normal(self):
         """Test month range with normal values."""
-        result = CDSFormatter.month_range(start=1, stop=12)
+        result = helpers.month_range(start=1, stop=12)
         assert result == ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 
     def test_month_range_cyclic(self):
         """Test month range for cyclic behaviour."""
-        result = CDSFormatter.month_range(start=6, stop=5)
+        result = helpers.month_range(start=6, stop=5)
         assert result == ["06", "07", "08", "09", "10", "11", "12", "01", "02", "03", "04", "05"]
 
     @pytest.mark.parametrize("start, stop", INVALID_MONTH_RANGES)
     def test_month_range_invalid(self, start: int, stop: int):
         with pytest.raises(ValidationError):
-            CDSFormatter.month_range(start, stop)
+            helpers.month_range(start, stop)
 
 class TestHelperDayFormatter:
 
@@ -82,12 +82,12 @@ class TestHelperDayFormatter:
             "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
         ]
 
-        result = CDSFormatter.format_to_day_list(input_days)
+        result = helpers.format_to_day_list(input_days)
         assert result == output_days
 
     def test_day_range(self):
         """Test that valid day ranges are returned."""
-        result = CDSFormatter.day_range(start=1, stop=31)
+        result = helpers.day_range(start=1, stop=31)
         assert result == [
             '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
@@ -97,7 +97,7 @@ class TestHelperDayFormatter:
     @pytest.mark.parametrize("start, stop", INVALID_DAY_RANGES)
     def test_day_range_invalid(self, start: int, stop: int):
         with pytest.raises(ValidationError):
-            CDSFormatter.day_range(start, stop)
+            helpers.day_range(start, stop)
 
 class TestHelperHourFormatter:
 
@@ -119,12 +119,12 @@ class TestHelperHourFormatter:
             "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
         ]
 
-        result = CDSFormatter.format_to_hour_list(input_hours)
+        result = helpers.format_to_hour_list(input_hours)
         assert result == output_hours
 
     def test_time_range(self):
         """Test that valid hour ranges are returned."""
-        result = CDSFormatter.time_range(start=0, stop=23)
+        result = helpers.time_range(start=0, stop=23)
         assert result == [
             '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
             '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
@@ -133,4 +133,4 @@ class TestHelperHourFormatter:
     @pytest.mark.parametrize("start, stop", INVALID_TIME_RANGES)
     def test_time_range_invalid(self, start: int, stop: int):
         with pytest.raises(ValidationError):
-            CDSFormatter.time_range(start, stop)
+            helpers.time_range(start, stop)
