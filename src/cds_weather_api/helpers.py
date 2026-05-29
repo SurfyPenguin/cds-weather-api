@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from datetime import datetime
 
 from .exceptions import ValidationError
@@ -20,7 +21,7 @@ EN_DASH = "–" # proper typography for ranges
 class CDSFormatter:
 
     @staticmethod
-    def format_to_year_list(years: list[int]) -> ParameterList:
+    def format_to_year_list(years: Sequence[int]) -> ParameterList:
         """Year list formatter for cdsapi.
 
         Formats any list of integer elements into valid year format.
@@ -34,7 +35,7 @@ class CDSFormatter:
         return [str(year) for year in years]
 
     @staticmethod
-    def format_to_month_list(months: list[int]) -> ParameterList:
+    def format_to_month_list(months: list[int] | tuple[int, ...]) -> ParameterList:
         """Month list formatter for cdsapi.
 
         Formats any list of integer elements into valid month format.
@@ -48,7 +49,7 @@ class CDSFormatter:
         return [f"{month:02d}" for month in months]
     
     @staticmethod
-    def format_to_day_list(days: list[int]) -> ParameterList:
+    def format_to_day_list(days: Sequence[int]) -> ParameterList:
         """Day list formatter for cdsapi.
 
         Formats any list of integer elements into valid day format.
@@ -62,7 +63,7 @@ class CDSFormatter:
         return [f"{day:02d}" for day in days]
     
     @staticmethod
-    def format_to_hour_list(hours: list[int]) -> ParameterList:
+    def format_to_hour_list(hours: Sequence[int]) -> ParameterList:
         """Hour list formatter for cdsapi.
 
         Formats any list of integer elements into valid hour format.

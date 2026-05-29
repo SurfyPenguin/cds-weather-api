@@ -231,7 +231,7 @@ class RequestBuilder():
         self._request.area = area
         return self
     
-    def target(self, file_name: str | os.PathLike, dir: os.PathLike = os.getcwd()) -> RequestBuilder:
+    def target(self, file_name: str | os.PathLike, dir: os.PathLike | str = os.getcwd()) -> RequestBuilder:
         """Downloads data-set in current-working directory
 
         Args:

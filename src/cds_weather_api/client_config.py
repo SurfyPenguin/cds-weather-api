@@ -8,6 +8,7 @@ from .exceptions import ClientError
 API_CREDS_FILE = ".cdsapirc"
 HOME_DIR = os.path.expanduser("~")
 
+# TODO: create a better implementation or remove ClientConfig in future.
 class ClientConfig:
     """Wrapper class of `cdsapi.Client`.
 
@@ -24,8 +25,9 @@ class ClientConfig:
             raise ClientError(f"Please provide api credentials in client config.\n\tor\ncreate an {API_CREDS_FILE} in 'home' directory.")
 
     @overload
-    @staticmethod
-    def config(
+    @classmethod
+    def config( # type: ignore[overload]
+        cls,
         *,
         url: str | None = None,
         key: str | None = None,

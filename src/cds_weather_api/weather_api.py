@@ -21,7 +21,7 @@ class WeatherApi:
     """
     def __init__(self) -> None:
         # client config
-        self.client: cdsapi.Client = None
+        self.client: cdsapi.Client | None = None
 
         # required defaults
         self.data_format: str = "netcdf"

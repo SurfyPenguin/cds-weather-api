@@ -1,3 +1,6 @@
+from typing import Any
+from collections.abc import Sequence
+
 from .exceptions import (
     BuildError,
     LatitudeError,
@@ -17,13 +20,13 @@ from .weather_api import WeatherApi
 class Validators:
 
     @staticmethod
-    def list_of_type(data: any, types: type | tuple[type, ...]) -> None:
+    def list_of_type(data: Any, types: type | tuple[type, ...]) -> None:
         """Validation for list of provided type(s).
 
         Checks if all the elements in a list are of the provided type(s) or not.
 
         Args:
-            data (any): Data to be validated.
+            data (Any): Data to be validated.
             types (type | tuple[type, ...]): Type(s) to be checked.
 
         Raises:
@@ -43,7 +46,7 @@ class Validators:
             raise ValidationError(f"The list/tuple must contain these types only: {types}")
         
     @staticmethod
-    def years(years: list[int]) -> None:
+    def years(years: Sequence[int]) -> None:
         """Validation for list of provided years.
 
         Args:
@@ -56,7 +59,7 @@ class Validators:
             raise ValidationError(f"Years must be between {ERA5_START_YEAR}{EN_DASH}{ERA5_CURRENT_YEAR}")
         
     @staticmethod
-    def months(months: list[int]) -> None:
+    def months(months: Sequence[int]) -> None:
         """Validation for list of provided months.
 
         Args:
@@ -70,7 +73,7 @@ class Validators:
 
         
     @staticmethod
-    def days(days: list[int]) -> None:
+    def days(days: Sequence[int]) -> None:
         """Validation for list of provided days.
 
         Args:
@@ -83,7 +86,7 @@ class Validators:
             raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}")
         
     @staticmethod
-    def hours(hours: list[int]) -> None:
+    def hours(hours: Sequence[int]) -> None:
         """Validation for list of provided hours.
 
         Args:
