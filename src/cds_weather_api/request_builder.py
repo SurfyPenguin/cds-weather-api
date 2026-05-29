@@ -6,7 +6,7 @@ import cdsapi
 from .exceptions import ValidationError
 from .helpers import CDSFormatter as fmt, ERA5_CURRENT_YEAR
 from .types import ParameterList, BoundingBox
-from .validators import Validators as validate
+from . import validators
 from .weather_api import WeatherApi
 
 class RequestBuilder():
@@ -52,7 +52,7 @@ class RequestBuilder():
             product_type (ParameterList): Product type such as reanalysis, hourly analysis, etc.
         """        
         # validate
-        validate.list_of_type(product_type, types=str)
+        validators.list_of_type(product_type, types=str)
 
         self._request.product_type = list(product_type)
         return self
@@ -66,7 +66,7 @@ class RequestBuilder():
             variables (ParameterList): Variables in string-list.
         """
         # validate
-        validate.list_of_type(variables, types=str)
+        validators.list_of_type(variables, types=str)
 
         self._request.variables = variables
         return self
@@ -79,8 +79,8 @@ class RequestBuilder():
         The years must be between 1939–Current.
         """
         # validate
-        validate.list_of_type(years, types=int)
-        validate.years(years)
+        validators.list_of_type(years, types=int)
+        validators.years(years)
 
         self._request.year = fmt.format_to_year_list(years)
         return self
@@ -107,8 +107,8 @@ class RequestBuilder():
         The months must be between 1–12.
         """
         # validate
-        validate.list_of_type(months, types=int)
-        validate.months(months)
+        validators.list_of_type(months, types=int)
+        validators.months(months)
 
         self._request.month = fmt.format_to_month_list(months)
         return self
@@ -136,8 +136,8 @@ class RequestBuilder():
         The days must be between 1–31.
         """
         # validate
-        validate.list_of_type(days, types=int)
-        validate.days(days)
+        validators.list_of_type(days, types=int)
+        validators.days(days)
 
         self._request.day = fmt.format_to_day_list(days)
         return self
@@ -161,8 +161,8 @@ class RequestBuilder():
         This method accepts a list of timestamps in 24-hour format. It ensures that each entry follows the "HH:MM" convention
         """
         # validate
-        validate.list_of_type(hours, types=int)
-        validate.hours(hours)
+        validators.list_of_type(hours, types=int)
+        validators.hours(hours)
 
         self._request.time = fmt.format_to_hour_list(hours)
         return self
@@ -192,7 +192,7 @@ class RequestBuilder():
         Raises:
             ValidationError: When provided data_format is not allowed/available.
         """
-        validate.data_format(data_format)
+        validators.data_format(data_format)
 
         self._request.data_format = data_format
         return self
@@ -208,7 +208,7 @@ class RequestBuilder():
         Raises:
             ValidationError: When provided download-format is not allowed/available.
         """
-        validate.download_format(download_format)
+        validators.download_format(download_format)
 
         self._request.download_format = download_format
         return self
@@ -225,8 +225,8 @@ class RequestBuilder():
             LongitudeError: West or East is outside [-180, 180].
         """
         # validate type
-        validate.list_of_type(area, types=(int, float))
-        validate.bounding_box(area)
+        validators.list_of_type(area, types=(int, float))
+        validators.bounding_box(area)
 
         self._request.area = area
         return self
@@ -256,5 +256,5 @@ class RequestBuilder():
             BuildError: When `dataset` parameter is not set.
             BuildError: When non-optional parameters are not set.
         """
-        validate.build_request_parameters(self._request)
+        validators.build_request_parameters(self._request)
         return self._request
