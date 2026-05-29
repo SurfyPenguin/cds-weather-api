@@ -4,7 +4,8 @@ import os
 import cdsapi
 
 from .exceptions import ValidationError
-from .helpers import CDSFormatter as fmt, ERA5_CURRENT_YEAR
+from . import helpers as fmt
+from .helpers import ERA5_CURRENT_YEAR
 from .types import ParameterList, BoundingBox
 from . import validators
 from .weather_api import WeatherApi
