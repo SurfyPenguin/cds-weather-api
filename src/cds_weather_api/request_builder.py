@@ -45,7 +45,7 @@ class RequestBuilder():
         self._request.dataset = dataset
         return self
 
-    def product_type(self, *product_type: ParameterList) -> RequestBuilder:
+    def product_type(self, *product_type: str) -> RequestBuilder:
         """The statistical nature of the data, such as hourly analysis, reanalysis, etc.
 
         Args:
