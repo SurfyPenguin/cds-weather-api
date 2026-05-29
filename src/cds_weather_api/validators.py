@@ -17,7 +17,7 @@ from .helpers import (
 from .types import BoundingBox
 from .weather_api import WeatherApi
 
-def list_of_type(data: Any, types: type | tuple[type, ...]) -> None:
+def validate_list_type(data: Any, types: type | tuple[type, ...]) -> None:
     """Validation for list of provided type(s).
 
     Checks if all the elements in a list are of the provided type(s) or not.
@@ -42,7 +42,7 @@ def list_of_type(data: Any, types: type | tuple[type, ...]) -> None:
     if not all(isinstance(item, types) for item in data):
         raise ValidationError(f"The list/tuple must contain these types only: {types}")
     
-def years(years: Sequence[int]) -> None:
+def validate_years(years: Sequence[int]) -> None:
     """Validation for list of provided years.
 
     Args:
@@ -54,7 +54,7 @@ def years(years: Sequence[int]) -> None:
     if not all(year in range(ERA5_START_YEAR, ERA5_CURRENT_YEAR + 1) for year in years):
         raise ValidationError(f"Years must be between {ERA5_START_YEAR}{EN_DASH}{ERA5_CURRENT_YEAR}")
     
-def months(months: Sequence[int]) -> None:
+def validate_months(months: Sequence[int]) -> None:
     """Validation for list of provided months.
 
     Args:
@@ -67,7 +67,7 @@ def months(months: Sequence[int]) -> None:
         raise ValidationError(f"Months must be between {FIRST_MONTH}{EN_DASH}{LAST_MONTH}")
 
     
-def days(days: Sequence[int]) -> None:
+def validate_days(days: Sequence[int]) -> None:
     """Validation for list of provided days.
 
     Args:
@@ -79,7 +79,7 @@ def days(days: Sequence[int]) -> None:
     if not all(day in range(FIRST_DAY, LAST_DAY + 1) for day in days):
         raise ValidationError(f"Days must be between {FIRST_DAY}{EN_DASH}{LAST_DAY}")
     
-def hours(hours: Sequence[int]) -> None:
+def validate_hours(hours: Sequence[int]) -> None:
     """Validation for list of provided hours.
 
     Args:
@@ -91,7 +91,7 @@ def hours(hours: Sequence[int]) -> None:
     if not all(hour in range(FIRST_HOUR, LAST_HOUR + 1) for hour in hours):
         raise ValidationError(f"Hours must be between {FIRST_HOUR}{EN_DASH}{LAST_HOUR}")
 
-def data_format(data_format: str) -> None:
+def validate_data_format(data_format: str) -> None:
     """Validation for dataset format.
 
     Checks if provided data format is allowed.
@@ -115,7 +115,7 @@ def data_format(data_format: str) -> None:
     if data_format not in allowed:
         raise ValidationError(f"Invalid download_format {data_format}. Download format must be one of {allowed}.")
 
-def download_format(download_format: str) -> None:
+def validate_download_format(download_format: str) -> None:
     """Validation for download format.
 
     Checks if provided data format is allowed.
@@ -139,7 +139,7 @@ def download_format(download_format: str) -> None:
     if download_format not in allowed:
         raise ValidationError(f"Invalid download_format {download_format}. Download format must be one of {allowed}.")
     
-def bounding_box(area: BoundingBox) -> None:
+def validate_bounding_box(area: BoundingBox) -> None:
     """Validates `BoundingBox` coordinates.
 
     Args:
@@ -170,7 +170,7 @@ def bounding_box(area: BoundingBox) -> None:
     if not (w <= e):
         raise LongitudeError(f"West ({w}) must be less than East ({e}).")
     
-def build_request_parameters(request: WeatherApi) -> None:
+def validate_build_request(request: WeatherApi) -> None:
     """Validation for request parameters in a particular `WeatherApi` request instance.
 
     Validates api payload parameters for not-set (None) values.
