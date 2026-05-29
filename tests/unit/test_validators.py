@@ -28,13 +28,13 @@ class TestValidators:
     ])
     def test_list_of_type(self, data, types):
         """Test that valid lists and tuples pass without any exception."""
-        validators.list_of_type(data, types=types)
+        validators.validate_list_type(data, types=types)
 
     @pytest.mark.parametrize("data, types", INVALID_INPUTS)
     def test_list_of_type_invalid(self, data, types):
         """Test that exceptions are raised for a set of invalid values."""
         with pytest.raises(ValidationError):
-            validators.list_of_type(data, types)
+            validators.validate_list_type(data, types)
 
     @pytest.mark.parametrize("years", [
         [1, 5, 9, 12, 33],
@@ -44,7 +44,7 @@ class TestValidators:
     def test_years(self, years):
         """Test that exceptions are raised for a set of invalid years-list."""
         with pytest.raises(ValidationError):
-            validators.years(years)
+            validators.validate_years(years)
 
     @pytest.mark.parametrize("months", [
         [1, 5, 9, 12, 33],
@@ -54,7 +54,7 @@ class TestValidators:
     def test_months(self, months):
         """Test that exceptions are raised for a set of invalid months-list."""
         with pytest.raises(ValidationError):
-            validators.months(months)
+            validators.validate_months(months)
 
     @pytest.mark.parametrize("days", [
         [1, 5, 9, 12, 33],
@@ -64,7 +64,7 @@ class TestValidators:
     def test_days(self, days):
         """Test that exceptions are raised for a set of invalid days-list."""
         with pytest.raises(ValidationError):
-            validators.days(days)
+            validators.validate_days(days)
 
     @pytest.mark.parametrize("hours", [
         [1, 5, 9, 12, 33],
@@ -74,7 +74,7 @@ class TestValidators:
     def test_hours(self, hours):
         """Test that exceptions are raised for a set of invalid hours-list."""
         with pytest.raises(ValidationError):
-            validators.hours(hours)
+            validators.validate_hours(hours)
 
     @pytest.mark.parametrize("bbox", [
         [20, 8, 90, 80], # top-edge, lies below bottom-edge
@@ -87,4 +87,4 @@ class TestValidators:
     def test_bounding_box(self, bbox):
         """Test that exceptions are raised for a set of invalid BoundingBox tuples."""
         with pytest.raises((ValidationError, LatitudeError, LongitudeError)):
-            validators.bounding_box(bbox)
+            validators.validate_bounding_box(bbox)
