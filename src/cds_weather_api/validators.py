@@ -46,7 +46,7 @@ def validate_years(years: Sequence[int]) -> None:
     """Validation for list of provided years.
 
     Args:
-        years (list[int]): List of years to be validated.
+        years (Sequence[int]): List of years to be validated.
 
     Raises:
         ValidationError: When provided years are not in the years for which datasets are available in CDS.
@@ -58,7 +58,7 @@ def validate_months(months: Sequence[int]) -> None:
     """Validation for list of provided months.
 
     Args:
-        months (list[int]): List of months to be validated.
+        months (Sequence[int]): List of months to be validated.
 
     Raises:
         ValidationError: When provided months are not in 1–12 range.
@@ -71,7 +71,7 @@ def validate_days(days: Sequence[int]) -> None:
     """Validation for list of provided days.
 
     Args:
-        days (list[int]): List of days to be validated.
+        days (Sequence[int]): List of days to be validated.
 
     Raises:
         ValidationError: When provided days are not in 1–31 range.
@@ -83,7 +83,7 @@ def validate_hours(hours: Sequence[int]) -> None:
     """Validation for list of provided hours.
 
     Args:
-        hours (list[int]): List of hours to be validated.
+        hours (Sequence[int]): List of hours to be validated.
 
     Raises:
         ValidationError: When provided hours are not in 00:00–23:00 range.

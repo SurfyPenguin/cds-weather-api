@@ -24,20 +24,20 @@ def format_to_year_list(years: Sequence[int]) -> ParameterList:
     Formats any list of integer elements into valid year format.
 
     Args:
-        years (list[int]): List of years in integer.
+        years (Sequence[int]): List of years in integer.
 
     Returns:
         ParameterList: Formatted years in string-list.
     """
     return [str(year) for year in years]
 
-def format_to_month_list(months: list[int] | tuple[int, ...]) -> ParameterList:
+def format_to_month_list(months: Sequence[int]) -> ParameterList:
     """Month list formatter for cdsapi.
 
     Formats any list of integer elements into valid month format.
 
     Args:
-        years (list[int]): List of months in integer.
+        years (Sequence[int]): List of months in integer.
 
     Returns:
         ParameterList: Formatted months in string-list.
@@ -50,7 +50,7 @@ def format_to_day_list(days: Sequence[int]) -> ParameterList:
     Formats any list of integer elements into valid day format.
 
     Args:
-        years (list[int]): List of days in integer.
+        years (Sequence[int]): List of days in integer.
 
     Returns:
         ParameterList: Formatted days in string-list.
@@ -63,7 +63,7 @@ def format_to_hour_list(hours: Sequence[int]) -> ParameterList:
     Formats any list of integer elements into valid hour format.
 
     Args:
-        years (list[int]): List of hours in integer.
+        years (Sequence[int]): List of hours in integer.
 
     Returns:
         ParameterList: Formatted hours in string-list.
