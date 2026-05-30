@@ -1,4 +1,6 @@
-ParameterList = list[str]
+from typing import TypeAlias
+
+ParameterList: TypeAlias = list[str]
 """
 Representation for list which contains string parameters.
 
@@ -9,7 +11,7 @@ Example:
     month = ["01", "02", ..., "30"]
 """
 
-BoundingBox = tuple[float, float, float, float]
+BoundingBox: TypeAlias = tuple[float, float, float, float]
 """
 Represents a geographical area as a tuple of four coordinates.
 
